@@ -1,10 +1,20 @@
-interface IInput extends React.HTMLAttributes<HTMLInputElement> {
-  value?: string;
+import { forwardRef } from "react";
+import cn from "clsx";
+
+interface IInput extends React.InputHTMLAttributes<HTMLInputElement> {
+  error?: boolean;
 }
-export default function Input(props: IInput) {
+
+const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
   return (
-    <div className="border-2 border-custom-light-grey rounded-md p-3 px-4 w-full focus-within:border-custom-purple">
-      <input className="outline-none w-full text-lg font-bold" {...props} />
+    <div
+      className={cn("border-2 border-custom-light-grey rounded-md p-2.5 h-full px-4 w-full focus-within:border-custom-purple", {
+        ["border-red-500 focus-within:border-red-500"]: props.error,
+      })}
+    >
+      <input ref={ref} className="outline-none w-full text-lg font-bold" {...props} />
     </div>
   );
-}
+});
+
+export default Input;

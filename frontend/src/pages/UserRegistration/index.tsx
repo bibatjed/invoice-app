@@ -44,7 +44,7 @@ export default function UserRegistration() {
     <div className="w-screen h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="border-2 p-9 max-h-[95vh]  overflow-y-scroll max-w-xs lg:w-full lg:max-w-lg border-custom-light-grey rounded-md">
         <div className="flex flex-col gap-4">
-          <h2 className="font-bold">Register User</h2>
+          <h2 className="font-bold text-xl">Register User</h2>
 
           <div className="flex flex-col gap-2.5">
             <div>

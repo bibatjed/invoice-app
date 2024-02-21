@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUserSchema, RegisterUserType } from "./validate";
 import { registerUser } from "./api/postUser";
 import { AxiosError } from "axios";
+import { useState } from "react";
 
 export default function UserRegistration() {
   const {
@@ -16,8 +17,11 @@ export default function UserRegistration() {
     resolver: zodResolver(RegisterUserSchema),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit: SubmitHandler<RegisterUserType> = async (data) => {
     try {
+      setIsLoading(true);
       await registerUser(data);
       alert("Success");
     } catch (e) {
@@ -31,9 +35,11 @@ export default function UserRegistration() {
           { shouldFocus: true }
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   };
-  console.log(errors);
+
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="border-2 p-9 max-h-[95vh]  overflow-y-scroll max-w-xs lg:w-full lg:max-w-lg border-custom-light-grey rounded-md">
@@ -86,7 +92,7 @@ export default function UserRegistration() {
         </div>
 
         <div className="w-full h-12 mt-4">
-          <Button disabled={!isValid} type="submit" text="Register" variant="primary" />
+          <Button disabled={!isValid || isLoading} type="submit" text="Register" variant="primary" />
         </div>
       </form>
     </div>

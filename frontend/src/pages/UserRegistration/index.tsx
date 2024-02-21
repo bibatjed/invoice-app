@@ -28,7 +28,7 @@ export default function UserRegistration() {
       alert("Success");
       navigate("/login");
     } catch (e) {
-      if (e instanceof AxiosError && e.response?.status) {
+      if (e instanceof AxiosError && e.response?.status === 409) {
         setError(
           "email",
           {
@@ -41,6 +41,10 @@ export default function UserRegistration() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onClickSignIn = () => {
+    navigate("/login");
   };
 
   return (
@@ -96,6 +100,10 @@ export default function UserRegistration() {
 
         <div className="w-full h-12 mt-4">
           <Button disabled={!isValid || isLoading} type="submit" text="Register" variant="primary" />
+        </div>
+
+        <div className="w-full h-12 mt-4">
+          <Button onClick={onClickSignIn} type="button" text="Sign In" variant="primary" />
         </div>
       </form>
     </div>

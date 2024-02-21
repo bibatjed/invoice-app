@@ -3,10 +3,12 @@ const app = express();
 import errorHandler from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
 import rTracer from "cls-rtracer";
+import cors from "cors";
 import initializeMorganMiddleware from "./middleware/morganMiddleware";
 import router from "./routes/index";
 
 function bootstrapApplication() {
+  app.use(cors());
   app.use(cookieParser());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

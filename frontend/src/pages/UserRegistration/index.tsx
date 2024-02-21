@@ -6,6 +6,7 @@ import { RegisterUserSchema, RegisterUserType } from "./validate";
 import { registerUser } from "./api/postUser";
 import { AxiosError } from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserRegistration() {
   const {
@@ -18,12 +19,14 @@ export default function UserRegistration() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<RegisterUserType> = async (data) => {
     try {
       setIsLoading(true);
       await registerUser(data);
       alert("Success");
+      navigate("/login");
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status) {
         setError(

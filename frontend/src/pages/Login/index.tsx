@@ -7,7 +7,8 @@ import { loginUser } from "./api/loginUser";
 // import { registerUser } from "./api/postUser";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "@src/context/UserContext";
 
 export default function Login() {
   const {
@@ -21,10 +22,11 @@ export default function Login() {
     resolver: zodResolver(LoginSchema),
   });
 
+  const { setUser, user } = useAuth();
+
   //remove custom error when either of field changes
   useEffect(() => {
-    const subscription = watch((data) => {
-      console.log(data);
+    const subscription = watch(() => {
       if (errors.root != null) {
         clearErrors("root");
       }
@@ -40,7 +42,8 @@ export default function Login() {
     try {
       setIsLoading(true);
       const token = (await loginUser(data)).data.token;
-      localStorage.setItem("accessToken", token);
+      setUser(token);
+      navigate("/");
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status) {
         setError("root", {
@@ -56,7 +59,10 @@ export default function Login() {
   const onClickSignUp = () => {
     navigate("/register");
   };
-  console.log(errors);
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">

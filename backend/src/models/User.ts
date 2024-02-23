@@ -1,14 +1,16 @@
-import { Model, InferAttributes, InferCreationAttributes, DataTypes, CreationOptional } from "sequelize";
+import { Model, InferAttributes, InferCreationAttributes, DataTypes, CreationOptional, NonAttribute, Association } from "sequelize";
 import sequelize from "../db";
 import { comparePassword, hashPassword } from "@src/utils/hashpassword";
+import Invoice from "./Invoice";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class User extends Model<InferAttributes<User, { omit: "invoices" }>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare firstName: string;
   declare middleName: string;
   declare lastName: string;
   declare email: string;
   declare password: string;
+  declare invoices?: NonAttribute<Invoice>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
   declare deletedAt: CreationOptional<Date>;
@@ -19,6 +21,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   async comparePassword(password: string) {
     return comparePassword(password, this.password);
   }
+
+  declare static associations: {
+    invoices: Association<User, Invoice>;
+  };
 }
 
 User.init(
@@ -57,5 +63,18 @@ User.init(
   },
   { tableName: "users", sequelize, paranoid: true }
 );
+
+User.hasMany(Invoice, {
+  sourceKey: "id",
+  foreignKey: "user_id",
+  as: "invoice",
+});
+
+Invoice.belongsTo(User, {
+  foreignKey: {
+    name: "user_id",
+    field: "user_id",
+  },
+});
 
 export default User;

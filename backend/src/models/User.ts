@@ -5,15 +5,15 @@ import Invoice from "./Invoice";
 
 class User extends Model<InferAttributes<User, { omit: "invoices" }>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
-  declare firstName: string;
-  declare middleName: string;
-  declare lastName: string;
+  declare first_name: string;
+  declare middle_name: string;
+  declare last_name: string;
   declare email: string;
   declare password: string;
   declare invoices?: NonAttribute<Invoice>;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
-  declare deletedAt: CreationOptional<Date>;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
+  declare deleted_at: CreationOptional<Date>;
 
   static hashPassword(password: string) {
     return hashPassword(password);
@@ -34,15 +34,15 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    firstName: {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    middleName: {
+    middle_name: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    lastName: {
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -54,14 +54,14 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-    deletedAt: {
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
+    deleted_at: {
       type: DataTypes.DATE,
       allowNull: true,
     },
   },
-  { tableName: "users", sequelize, paranoid: true }
+  { underscored: true, tableName: "users", sequelize, paranoid: true }
 );
 
 User.hasMany(Invoice, {
@@ -77,4 +77,5 @@ Invoice.belongsTo(User, {
   },
 });
 
+User.sync({ force: true });
 export default User;

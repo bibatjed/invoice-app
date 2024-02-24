@@ -1,10 +1,11 @@
 import { Transaction } from "sequelize";
 import User from "@src/models/User";
+import InvoiceItem from "@src/models/InvoiceItem";
 
 type UserDetails = {
-  firstName: string;
-  middleName: string;
-  lastName: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
   email: string;
   password: string;
 };

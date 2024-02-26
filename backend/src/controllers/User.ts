@@ -8,7 +8,7 @@ class UserController {
   constructor(private readonly userService: IUserService) {}
 
   register = async (req: Request, res: Response, next: NextFunction) => {
-    const { firstName: first_name, middleName: middle_name, lastName: last_name, email, password } = req.body;
+    const { first_name, middle_name, last_name, email, password } = req.body;
     try {
       const result = await this.userService.register({ first_name, middle_name, last_name, email, password });
       return res.json(result);

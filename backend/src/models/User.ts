@@ -77,5 +77,4 @@ Invoice.belongsTo(User, {
   },
 });
 
-User.sync({ force: true });
 export default User;

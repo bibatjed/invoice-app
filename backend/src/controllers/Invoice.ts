@@ -1,10 +1,7 @@
 import { UserRequest } from "@src/middleware/authMiddleware";
 import { createInvoiceType } from "@src/services/invoice/validate";
 import { NextFunction, Request, Response } from "express";
-
-export interface IInvoiceService {
-  createInvoice: (invoice: createInvoiceType, user_id: number) => any;
-}
+import { IInvoiceService } from "@src/services/invoice/Invoice";
 
 class InvoiceController {
   constructor(private readonly userService: IInvoiceService) {}

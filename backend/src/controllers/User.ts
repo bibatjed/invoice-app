@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-
-export interface IUserService {
-  registerUser: (userDetails: { first_name: string; middle_name: string; last_name: string; email: string; password: string }) => any;
-}
+import { IUserService } from "@src/services/user/User";
 
 class UserController {
   constructor(private readonly userService: IUserService) {}

@@ -6,6 +6,8 @@ const RegisterUserSchema = z.object({
   middle_name: z.string().optional(),
   last_name: z.string(),
 });
+
+export type registeUserType = z.infer<typeof RegisterUserSchema>;
 export function validateRegisterUser(userDetails: z.infer<typeof RegisterUserSchema>) {
   return RegisterUserSchema.parse(userDetails);
 }

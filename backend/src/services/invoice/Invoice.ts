@@ -1,7 +1,10 @@
-import { IInvoiceService } from "@src/controllers/Invoice";
 import { IRepository } from "@src/repository";
 import generateInvoiceTag from "./generateInvoiceTag";
 import { validateCreateInvoce, createInvoiceType } from "./validate";
+
+export interface IInvoiceService {
+  createInvoice: (invoice: createInvoiceType, user_id: number) => any;
+}
 class InvoiceService implements IInvoiceService {
   constructor(private readonly repository: IRepository) {}
   async createInvoice(invoice: createInvoiceType, user_id: number) {

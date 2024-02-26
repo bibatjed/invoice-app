@@ -6,7 +6,7 @@ import Invoice from "./Invoice";
 class User extends Model<InferAttributes<User, { omit: "invoices" }>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare first_name: string;
-  declare middle_name: string;
+  declare middle_name?: string;
   declare last_name: string;
   declare email: string;
   declare password: string;

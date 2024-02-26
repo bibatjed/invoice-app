@@ -1,14 +1,8 @@
 import { Transaction } from "sequelize";
 import User from "@src/models/User";
-import InvoiceItem from "@src/models/InvoiceItem";
+import { registeUserType } from "@src/services/user/validate";
 
-type UserDetails = {
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-};
+type UserDetails = {} & registeUserType;
 export interface IUserRepository {
   registerUser: (userDetails: UserDetails, transaction: Transaction | null) => Promise<User>;
   findUserByEmail: (email: string, transaction: Transaction | null) => Promise<User | null>;

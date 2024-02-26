@@ -1,4 +1,4 @@
-import { DateOnlyDataType, Transaction } from "sequelize";
+import { DateOnlyDataType, InferAttributes, Transaction } from "sequelize";
 import Invoice from "@src/models/Invoice";
 import InvoiceItem from "@src/models/InvoiceItem";
 import { createInvoiceType } from "@src/services/invoice/validate";
@@ -8,8 +8,9 @@ type invoiceDetails = {
   user_id: number;
 } & createInvoiceType;
 export interface IInvoiceRepositry {
-  createInvoice: (invoice: invoiceDetails, transaction: Transaction | null) => Promise<any>;
-  findInvoiceByTag: (tag: string, transaction: Transaction | null) => Promise<any>;
+  createInvoice: (invoice: invoiceDetails, transaction: Transaction | null) => Promise<InferAttributes<Invoice> & { invoice_item: InvoiceItem[] }>;
+  findInvoiceByTag: (tag: string, transaction: Transaction | null) => Promise<Invoice | null>;
+  findInvoiceByUserId: (user_id: number, offset: number, limit: number, transaction: Transaction | null) => Promise<{ rows: Invoice[]; count: number }>;
 }
 
 class InvoiceRepository implements IInvoiceRepositry {
@@ -46,7 +47,7 @@ class InvoiceRepository implements IInvoiceRepositry {
     });
 
     return {
-      ...invoiceResult,
+      ...invoiceResult.dataValues,
       invoice_item: invoiceItemResult,
     };
   }
@@ -56,6 +57,17 @@ class InvoiceRepository implements IInvoiceRepositry {
       where: {
         invoice_tag: tag,
       },
+      transaction,
+    });
+  }
+
+  async findInvoiceByUserId(user_id: number, offset: number, limit: number, transaction: Transaction | null) {
+    return Invoice.findAndCountAll({
+      where: {
+        user_id: user_id,
+      },
+      offset,
+      limit,
       transaction,
     });
   }

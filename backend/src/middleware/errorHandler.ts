@@ -15,6 +15,7 @@ export default function (err: ErrorRequestHandler, req: Request, res: Response, 
       message: err.message,
     });
   }
+
   return res.status(500).json({
     message: "Something went wrong",
   });

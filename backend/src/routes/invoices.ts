@@ -8,7 +8,7 @@ const router = express.Router();
 export default function initializeInvoiceRouter(repository: IRepository) {
   const invoiceService = new InvoiceService(repository);
   const invoiceController = new InvoiceContoller(invoiceService);
-  router.post("/", authMiddleware(repository), invoiceController.createInvoice);
+  router.route("/").post(authMiddleware(repository), invoiceController.createInvoice).get(authMiddleware(repository), invoiceController.getInvoice);
 
   return router;
 }

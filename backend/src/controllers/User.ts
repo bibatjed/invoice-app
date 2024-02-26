@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 export interface IUserService {
-  register: (userDetails: { first_name: string; middle_name: string; last_name: string; email: string; password: string }) => any;
+  registerUser: (userDetails: { first_name: string; middle_name: string; last_name: string; email: string; password: string }) => any;
 }
 
 class UserController {
@@ -10,7 +10,7 @@ class UserController {
   register = async (req: Request, res: Response, next: NextFunction) => {
     const { first_name, middle_name, last_name, email, password } = req.body;
     try {
-      const result = await this.userService.register({ first_name, middle_name, last_name, email, password });
+      const result = await this.userService.registerUser({ first_name, middle_name, last_name, email, password });
       return res.json(result);
     } catch (e) {
       return next(e);

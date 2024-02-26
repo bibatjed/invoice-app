@@ -4,7 +4,7 @@ import ErrorService from "@src/utils/ErrorService";
 import { validateRegisterUser } from "./validate";
 class UserService implements IUserService {
   constructor(private readonly repository: IRepository) {}
-  async register(userDetails: { first_name: string; middle_name: string; last_name: string; email: string; password: string }) {
+  async createInvoice(userDetails: { first_name: string; middle_name: string; last_name: string; email: string; password: string }) {
     validateRegisterUser(userDetails);
     await this.repository.startTransaction(async (transaction) => {
       const userResult = await this.repository.user.findUserByEmail(userDetails.email, transaction);

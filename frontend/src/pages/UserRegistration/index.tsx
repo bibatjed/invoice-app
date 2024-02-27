@@ -57,22 +57,22 @@ export default function UserRegistration() {
             <div>
               <span className="text-custom-medium-grey text-base font-medium">First Name</span>
               <div>
-                <Input error={errors.firstName != null} {...register("firstName")} />
+                <Input error={errors.first_name != null} {...register("first_name")} />
               </div>
-              {errors.firstName && <span className="text-sm font-medium text-red-600">{errors.firstName.message}</span>}
+              {errors.first_name && <span className="text-sm font-medium text-red-600">{errors.first_name.message}</span>}
             </div>
             <div>
               <span className="text-custom-medium-grey text-base font-medium">Middle Name</span>
               <div>
-                <Input {...register("middleName")} />
+                <Input {...register("middle_name")} />
               </div>
             </div>
             <div>
               <span className="text-custom-medium-grey text-base font-medium">Last Name</span>
               <div>
-                <Input error={errors.lastName != null} {...register("lastName")} />
+                <Input error={errors.last_name != null} {...register("last_name")} />
               </div>
-              {errors.lastName && <span className="text-sm font-medium text-red-600">{errors.lastName.message}</span>}
+              {errors.last_name && <span className="text-sm font-medium text-red-600">{errors.last_name.message}</span>}
             </div>
             <div>
               <span className="text-custom-medium-grey text-base font-medium">Email</span>
@@ -91,9 +91,9 @@ export default function UserRegistration() {
             <div>
               <span className="text-custom-medium-grey text-base font-medium">Confirm Password</span>
               <div>
-                <Input error={errors.confirmPassword != null} {...register("confirmPassword")} type="password" />
+                <Input error={errors.confirm_password != null} {...register("confirm_password")} type="password" />
               </div>
-              {errors.confirmPassword && <span className="text-sm font-medium text-red-600">{errors.confirmPassword.message}</span>}
+              {errors.confirm_password && <span className="text-sm font-medium text-red-600">{errors.confirm_password.message}</span>}
             </div>
           </div>
         </div>

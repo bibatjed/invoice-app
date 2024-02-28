@@ -13,8 +13,12 @@ export type GetInvoicesType = {
   count: number;
   pages: number;
 };
-export async function getInvoices(): Promise<GetInvoicesType> {
-  const result = await http.get("/v1/invoices");
+export async function getInvoices(page: number = 1): Promise<GetInvoicesType> {
+  const result = await http.get("/v1/invoices", {
+    params: {
+      page,
+    },
+  });
 
   return result.data;
 }

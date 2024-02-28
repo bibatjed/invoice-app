@@ -1,22 +1,12 @@
 import Main from "@src/layout/Main";
-import { useEffect, useState } from "react";
-import { GetInvoicesType, getInvoices } from "./api/invoice";
 import Button from "@src/components/Button";
 import EmptyInvoice from "./components/EmptyInvoice";
 import MyDropdown from "@src/components/Dropdown";
 import InvoiceList from "./components/InvoiceList";
+import useInfiniteLoadingInvoice from "./hooks/useInfiniteLoadingInvoice";
 
 export default function Home() {
-  const [data, setData] = useState<GetInvoicesType>({
-    result: [],
-    pages: 0,
-    count: 0,
-  });
-  useEffect(() => {
-    getInvoices().then((data) => {
-      setData(data);
-    });
-  }, []);
+  const { data, bottomRef, isLoading } = useInfiniteLoadingInvoice();
   return (
     <Main>
       <div className="w-full">
@@ -34,7 +24,9 @@ export default function Home() {
           </div>
         </div>
 
-        {data.count === 0 ? <EmptyInvoice /> : <InvoiceList result={data.result} />}
+        {data.count === 0 && isLoading == false ? <EmptyInvoice /> : <InvoiceList result={data.result} />}
+        {isLoading && <span>...Loading</span>}
+        <div ref={bottomRef} />
       </div>
     </Main>
   );

@@ -1,12 +1,12 @@
 import Main from "@src/layout/Main";
 import Button from "@src/components/Button";
 import EmptyInvoice from "./components/EmptyInvoice";
-import MyDropdown from "@src/components/Dropdown";
+import MyDropdown from "@src/pages/Home/components/Dropdown";
 import InvoiceList from "./components/InvoiceList";
 import useInfiniteLoadingInvoice from "./hooks/useInfiniteLoadingInvoice";
 
 export default function Home() {
-  const { data, bottomRef, isLoading } = useInfiniteLoadingInvoice();
+  const { data, bottomRef, isLoading, setStatusFilter } = useInfiniteLoadingInvoice();
   return (
     <Main>
       <div className="w-full">
@@ -17,7 +17,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-4">
-            <MyDropdown />
+            <MyDropdown onQueryChange={setStatusFilter} />
             <div className="w-28 h-14">
               <Button withAddIcon variant="primary" text="New" />
             </div>

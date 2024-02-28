@@ -1,13 +1,21 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
+import ArrowDown from "@src/assets/icon-arrow-down.svg";
+import cn from "clsx";
 
 export default function Example() {
   const [show, setShow] = useState(false);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button onClick={() => setShow((prev) => !prev)} className="inline-flex w-full justify-center rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-          Filter
+        <Menu.Button onClick={() => setShow((prev) => !prev)} className="inline-flex gap-1 w-full bg-none justify-center items-center  text-lg font-bold text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+          Filter{" "}
+          <img
+            src={ArrowDown}
+            className={cn("w-3 h-2 transition rotate-0", {
+              ["rotate-180"]: show,
+            })}
+          />
         </Menu.Button>
       </div>
       <Transition show={show} as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">

@@ -4,7 +4,7 @@ import { GetInvoicesType, getInvoices } from "./api/invoice";
 import Button from "@src/components/Button";
 import EmptyInvoice from "./components/EmptyInvoice";
 import MyDropdown from "@src/components/Dropdown";
-import InvoiceItem from "./components/InvoiceItem";
+import InvoiceList from "./components/InvoiceList";
 
 export default function Home() {
   const [data, setData] = useState<GetInvoicesType>({
@@ -26,19 +26,15 @@ export default function Home() {
             <h3 className="text-custom-medium-grey text-base">{data.count} Invoices</h3>
           </div>
 
-          <MyDropdown />
-          <div className="w-28 h-14">
-            <Button withAddIcon variant="primary" text="New" />
+          <div className="flex items-center gap-4">
+            <MyDropdown />
+            <div className="w-28 h-14">
+              <Button withAddIcon variant="primary" text="New" />
+            </div>
           </div>
         </div>
 
-        <div className="flex mt-10 flex-col gap-4">
-          {data.count > 0 &&
-            data.result.map((value) => {
-              return <InvoiceItem key={value.invoice_tag} {...value} />;
-            })}
-        </div>
-        {data.count === 0 && <EmptyInvoice />}
+        {data.count === 0 ? <EmptyInvoice /> : <InvoiceList result={data.result} />}
       </div>
     </Main>
   );

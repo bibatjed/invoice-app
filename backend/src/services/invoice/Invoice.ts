@@ -5,7 +5,7 @@ import { validateCreateInvoce, createInvoiceType } from "./validate";
 
 export interface IInvoiceService {
   createInvoice: (user_id: number, invoice: createInvoiceType) => any;
-  getInvoice: (user_id: number, page: string, limit: string) => any;
+  getInvoice: (user_id: number, page: string, limit: string, status: string) => any;
 }
 class InvoiceService implements IInvoiceService {
   constructor(private readonly repository: IRepository) {}
@@ -28,10 +28,11 @@ class InvoiceService implements IInvoiceService {
     return invoiceResult;
   }
 
-  async getInvoice(user_id: number, page: string = "1", limit: string = "10") {
+  async getInvoice(user_id: number, page: string = "1", limit: string = "10", statusFilter: string = "") {
     let paginationPage = 1;
     let paginationLimit = 10;
-
+    let arrStatusFilter: string[] = statusFilter.split(",");
+    arrStatusFilter = arrStatusFilter.filter((val) => ["pending", "paid", "draft"].includes(val));
     if (!isNaN(Number(page))) {
       paginationPage = Number(page);
     }
@@ -39,10 +40,11 @@ class InvoiceService implements IInvoiceService {
     if (isNaN(Number(limit))) {
       paginationLimit = Number(limit);
     }
+
     const invoiceResult = await this.repository.startTransaction(async (transaction) => {
       const offset = calculateOffset(paginationPage, paginationLimit);
 
-      const result = await this.repository.invoice.findInvoiceByUserId(user_id, offset, paginationLimit, transaction);
+      const result = await this.repository.invoice.findInvoiceByUserId(user_id, offset, paginationLimit, arrStatusFilter, transaction);
 
       return {
         result: result.rows,

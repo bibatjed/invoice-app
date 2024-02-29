@@ -1,4 +1,4 @@
-import { DateOnlyDataType, InferAttributes, Transaction } from "sequelize";
+import { DateOnlyDataType, InferAttributes, Op, Sequelize, Transaction } from "sequelize";
 import Invoice from "@src/models/Invoice";
 import InvoiceItem from "@src/models/InvoiceItem";
 import { createInvoiceType } from "@src/services/invoice/validate";
@@ -10,7 +10,7 @@ type invoiceDetails = {
 export interface IInvoiceRepositry {
   createInvoice: (invoice: invoiceDetails, transaction: Transaction | null) => Promise<InferAttributes<Invoice> & { invoice_item: InvoiceItem[] }>;
   findInvoiceByTag: (tag: string, transaction: Transaction | null) => Promise<Invoice | null>;
-  findInvoiceByUserId: (user_id: number, offset: number, limit: number, transaction: Transaction | null) => Promise<{ rows: Invoice[]; count: number }>;
+  findInvoiceByUserId: (user_id: number, offset: number, limit: number, statusFilter: string[], transaction: Transaction | null) => Promise<{ rows: Invoice[]; count: number }>;
 }
 
 class InvoiceRepository implements IInvoiceRepositry {
@@ -30,6 +30,9 @@ class InvoiceRepository implements IInvoiceRepositry {
         bill_to_post_code: invoice.bill_to_post_code,
         bill_to_street_address: invoice.bill_to_street_address,
         payment_terms: invoice.payment_terms,
+
+        // todo: make it dynamic
+        status: "pending",
         total: invoice.total,
         project_description: invoice.project_description,
         invoice_date: invoice.invoice_date as unknown as DateOnlyDataType,
@@ -61,10 +64,16 @@ class InvoiceRepository implements IInvoiceRepositry {
     });
   }
 
-  async findInvoiceByUserId(user_id: number, offset: number, limit: number, transaction: Transaction | null) {
+  async findInvoiceByUserId(user_id: number, offset: number, limit: number, statusFilter: string[] = [], transaction: Transaction | null) {
     return Invoice.findAndCountAll({
       where: {
         user_id: user_id,
+
+        ...(statusFilter.length > 0 && {
+          status: {
+            [Op.in]: statusFilter,
+          },
+        }),
       },
       offset,
       limit,

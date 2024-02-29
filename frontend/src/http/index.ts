@@ -21,4 +21,39 @@ instance.interceptors.request.use(
 
 //TODO: add interceptor for response + refresh token mechanism
 
+let refreshTokenPromise: Promise<any> | null = null;
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error?.response?.status === 401 && originalRequest.url !== "/v1/auth/refresh-token") {
+      if (!refreshTokenPromise) {
+        refreshTokenPromise = instance
+          .post(
+            "/v1/auth/refresh-token",
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then((result) => {
+            refreshTokenPromise = null;
+            return result;
+          });
+      }
+
+      return refreshTokenPromise.then((result) => {
+        localStorage.setItem("accessToken", result.data.token);
+        return instance(originalRequest);
+      });
+    }
+
+    localStorage.removeItem("accessToken");
+    window.location.replace("/login");
+    return Promise.reject(error);
+  }
+);
+
 export default instance;

@@ -34,6 +34,7 @@ exports.up = function (db, callback) {
       invoice_date DATE NOT NULL,
       payment_terms VARCHAR(255) NOT NULL,
       project_description VARCHAR(255) NOT NULL,
+      status VARCHAR(255) NOT NULL,
       total INT NOT NULL,
       created_at DATETIME NOT NULL,
       updated_at DATETIME NOT NULL,

@@ -17,9 +17,9 @@ class InvoiceController {
 
   getInvoice = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let { page, limit } = req.query;
+      let { page, limit, status } = req.query;
 
-      const result = await this.userService.getInvoice((req as UserRequest).user.id, page as string, limit as string);
+      const result = await this.userService.getInvoice((req as UserRequest).user.id, page as string, limit as string, status as string);
       return res.json(result);
     } catch (e) {
       return next(e);

@@ -20,6 +20,7 @@ class Invoice extends Model<InferAttributes<Invoice, { omit: "invoice_items" }>,
   declare invoice_date: DateOnlyDataType;
   declare payment_terms: string;
   declare project_description: string;
+  declare status: string;
   declare total: number;
   declare invoice_items: NonAttribute<InvoiceItem>;
   declare created_at: CreationOptional<Date>;
@@ -92,6 +93,10 @@ Invoice.init(
       allowNull: false,
     },
     project_description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
       type: DataTypes.STRING,
       allowNull: false,
     },

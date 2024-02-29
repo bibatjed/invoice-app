@@ -16,7 +16,7 @@ export default function InvoiceItem(props: InvoiceItemProps) {
           <span className="text-base font-bold">&#163;{props.total}</span>
         </div>
         <div className="w-28">
-          <Status status={"draft"} />
+          <Status status={props.status} />
         </div>
       </div>
     </div>

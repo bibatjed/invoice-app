@@ -8,7 +8,8 @@ import initializeMorganMiddleware from "./middleware/morganMiddleware";
 import router from "./routes/index";
 
 function bootstrapApplication() {
-  app.use(cors());
+  //TODO: move this to env
+  app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
   app.use(cookieParser());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

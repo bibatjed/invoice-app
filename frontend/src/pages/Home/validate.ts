@@ -17,8 +17,8 @@ export const addInvoiceSchema = z.object({
     .array(
       z.object({
         item_name: z.string(),
-        quantity: z.coerce.number().int(),
-        price: z.coerce.number().int(),
+        quantity: z.coerce.number().int().min(1),
+        price: z.coerce.number().int().min(1),
       })
     )
     .min(1),

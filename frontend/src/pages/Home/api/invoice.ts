@@ -1,4 +1,5 @@
 import http from "@src/http";
+import { AddInvoiceType } from "../validate";
 export type InvoiceItem = {
   id: number;
   invoice_tag: string;
@@ -22,4 +23,19 @@ export async function getInvoices(statusFilter: string = "", page: number = 1): 
   });
 
   return result.data;
+}
+
+type PostInvoice = Omit<AddInvoiceType, "invoice_items"> & {
+  invoice_items: {
+    item_name: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }[];
+};
+
+export async function postInvoice(data: PostInvoice) {
+  return http.post("/v1/invoices", {
+    ...data,
+  });
 }

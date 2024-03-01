@@ -19,8 +19,6 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-//TODO: add interceptor for response + refresh token mechanism
-
 let refreshTokenPromise: Promise<any> | null = null;
 instance.interceptors.response.use(
   (response) => {
@@ -44,14 +42,17 @@ instance.interceptors.response.use(
           });
       }
 
-      return refreshTokenPromise.then((result) => {
-        localStorage.setItem("accessToken", result.data.token);
-        return instance(originalRequest);
-      });
+      return refreshTokenPromise
+        .then((result) => {
+          localStorage.setItem("accessToken", result.data.token);
+          return instance(originalRequest);
+        })
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          window.location.replace("/login");
+        });
     }
 
-    localStorage.removeItem("accessToken");
-    window.location.replace("/login");
     return Promise.reject(error);
   }
 );

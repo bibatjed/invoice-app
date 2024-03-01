@@ -1,5 +1,5 @@
 import z from "zod";
-const createInvoiceSchema = z.object({
+export const addInvoiceSchema = z.object({
   bill_from_street_address: z.string(),
   bill_from_city: z.string(),
   bill_from_post_code: z.string(),
@@ -11,18 +11,17 @@ const createInvoiceSchema = z.object({
   bill_to_post_code: z.string(),
   bill_to_country: z.string(),
   invoice_date: z.coerce.date(),
-  payment_terms: z.enum(["next_1_day", "next_7_days", "next_14_days", "next_30_days"]),
+  payment_terms: z.enum(["net_1_day", "net_7_days", "net_14_days", "net_30_days"]),
   project_description: z.string(),
   invoice_items: z
     .array(
       z.object({
         item_name: z.string(),
-        quantity: z.number(),
-        price: z.number(),
-        total: z.number(),
+        quantity: z.coerce.number().int(),
+        price: z.coerce.number().int(),
       })
     )
     .min(1),
 });
 
-export type LoginUserType = z.infer<typeof createInvoiceSchema>;
+export type AddInvoiceType = z.infer<typeof addInvoiceSchema>;

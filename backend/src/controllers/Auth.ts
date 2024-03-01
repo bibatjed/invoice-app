@@ -15,6 +15,7 @@ class AuthController {
       const result = await this.authService.login({ email, password });
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
+        secure: true,
       });
       return res.json({
         message: result.message,
@@ -31,6 +32,7 @@ class AuthController {
       const result = await this.authService.refreshToken(req.cookies["refreshToken"]);
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
+        secure: true,
       });
 
       return res.json({

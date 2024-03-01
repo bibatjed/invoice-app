@@ -6,19 +6,20 @@ import Button from "@src/components/Button";
 import Select from "@src/components/Select";
 import DatePicker from "@src/components/DatePicker";
 import IconDelete from "@src/assets/icon-delete.svg";
-import { postInvoice } from "../api/invoice";
+import { InvoiceItem, postInvoice } from "../api/invoice";
 
-export default function InvoiceForm() {
+export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceData: (data: InvoiceItem) => void }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-
+    reset,
     control,
   } = useForm<AddInvoiceType>({
     defaultValues: {
       payment_terms: "net_1_day",
+      invoice_items: [],
     },
     resolver: zodResolver(addInvoiceSchema),
   });
@@ -29,6 +30,11 @@ export default function InvoiceForm() {
     control,
     name: "invoice_items",
   });
+
+  const onDiscard = () => {
+    reset();
+    props.onDiscard();
+  };
 
   const onSubmit = async (data: AddInvoiceType) => {
     try {
@@ -46,13 +52,16 @@ export default function InvoiceForm() {
         }),
       };
 
-      await postInvoice(submitData);
+      const result = await postInvoice(submitData);
+      props.postInvoiceData(result.data);
+      onDiscard();
     } catch (e) {
       console.log(e);
     }
   };
+
   return (
-    <div className="w-full bg-custom-white p-6">
+    <div className="w-full bg-custom-white p-6 mt-20 h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-[24px] font-bold">New Invoice</h1>
 
@@ -166,11 +175,11 @@ export default function InvoiceForm() {
         </div>
 
         <h3 className="text-[18px] text-custom-medium-grey font-bolda mt-[69px] mb-9">Item list</h3>
-        <div>
+        <div className="flex flex-col gap-5">
           {fields.map((_, index) => {
             return (
-              <div key={index} className="last:mb-[48px]">
-                <div>
+              <div key={index} className="last:mb-[48px] flex flex-col gap-3">
+                <div className="">
                   <span className="text-custom-medium-grey text-[13px] font-normal">Item Name</span>
                   <div className="h-[48px]">
                     <Input {...register(`invoice_items.${index}.item_name`)} />
@@ -196,7 +205,7 @@ export default function InvoiceForm() {
                   <div>
                     <span className="text-custom-medium-grey text-[13px] font-normal">Total</span>
                     <div className="h-[48px] w-[110px]">
-                      <Input readOnly value={Number(invoice_items[index].price) * Number(invoice_items[index].quantity)} />
+                      <Input readOnly value={Number(invoice_items?.[index]?.price ?? 0) * Number(invoice_items?.[index]?.quantity ?? 0)} />
                     </div>
                   </div>
 
@@ -218,7 +227,7 @@ export default function InvoiceForm() {
           <div className="h-[50%] -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>
           <div className="flex justify-between bg-custom-white items-end basis-[50%]">
             <div className="w-[86px] h-14">
-              <Button type="button" text="Discard" variant="secondary" />
+              <Button onClick={onDiscard} type="button" text="Discard" variant="secondary" />
             </div>
             <div className="w-[117px] h-14">
               <Button type="button" text="Save as Draft" variant="tertiary" />

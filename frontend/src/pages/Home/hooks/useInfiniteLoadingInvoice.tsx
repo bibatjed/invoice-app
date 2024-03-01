@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { GetInvoicesType, getInvoices } from "../api/invoice";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { GetInvoicesType, InvoiceItem, getInvoices } from "../api/invoice";
 
 export default function useInfiniteLoadingInvoice() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +28,19 @@ export default function useInfiniteLoadingInvoice() {
     };
   }, [statusFilter]);
 
+  const postInvoiceData = useCallback(
+    (data: InvoiceItem) => {
+      if (statusFilter.includes(data.status)) {
+        setData((prevData) => ({
+          ...prevData,
+          count: prevData.count + 1,
+          result: [data, ...prevData.result],
+        }));
+      }
+    },
+    [statusFilter]
+  );
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !isLoading && data.pages >= currentPage.current + 1) {
@@ -50,5 +63,5 @@ export default function useInfiniteLoadingInvoice() {
     };
   }, [data.count, isLoading, statusFilter]);
 
-  return { bottomRef: bottom, data, isLoading, setStatusFilter };
+  return { bottomRef: bottom, data, isLoading, setStatusFilter, postInvoiceData };
 }

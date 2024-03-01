@@ -35,7 +35,7 @@ export default function Header() {
     });
   };
   return (
-    <div className="bg-custom-darker-blue flex justify-between z-10 items-center sticky top-0">
+    <div className="bg-custom-darker-blue flex justify-between z-50 items-center sticky top-0">
       <img src={Logo} className="size-20" />
       <div className="flex gap-5 h-20">
         <div className="flex items-center">

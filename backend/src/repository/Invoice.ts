@@ -78,6 +78,7 @@ class InvoiceRepository implements IInvoiceRepositry {
       offset,
       limit,
       transaction,
+      order: [["created_at", "DESC"]],
     });
   }
 }

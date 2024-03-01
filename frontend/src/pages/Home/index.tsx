@@ -50,8 +50,8 @@ export default function Home() {
         </div>
 
         {data.count === 0 && isLoading == false ? <EmptyInvoice /> : <InvoiceList result={data.result} />}
-        {isLoading && <span>...Loading</span>}
         <div ref={bottomRef} />
+        {isLoading && <span>...Loading</span>}
       </div>
 
       <div

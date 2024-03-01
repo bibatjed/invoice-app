@@ -75,10 +75,14 @@ class InvoiceRepository implements IInvoiceRepositry {
           },
         }),
       },
+
+      order: [
+        ["created_at", "DESC"],
+        ["id", "DESC"],
+      ],
       offset,
       limit,
       transaction,
-      order: [["created_at", "DESC"]],
     });
   }
 }

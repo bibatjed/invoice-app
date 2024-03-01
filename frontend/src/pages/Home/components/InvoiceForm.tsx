@@ -5,6 +5,7 @@ import { AddInvoiceType, addInvoiceSchema } from "../validate";
 import Button from "@src/components/Button";
 import Select from "@src/components/Select";
 import DatePicker from "@src/components/DatePicker";
+import IconDelete from "@src/assets/icon-delete.svg";
 import { postInvoice } from "../api/invoice";
 
 export default function InvoiceForm() {
@@ -24,7 +25,7 @@ export default function InvoiceForm() {
 
   const invoice_items = watch("invoice_items");
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "invoice_items",
   });
@@ -55,7 +56,7 @@ export default function InvoiceForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-[24px] font-bold">New Invoice</h1>
 
-        <h3 className="text-custom-purple text-[15px]">Bill From</h3>
+        <h3 className="text-custom-purple text-[15px] mt-[22px]">Bill From</h3>
 
         <div>
           <span className="text-custom-medium-grey text-[13px] font-normal">Street Address</span>
@@ -64,138 +65,168 @@ export default function InvoiceForm() {
           </div>
         </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
-          <div className="h-[48px]">
-            <Input {...register("bill_from_city")} />
+        <div className="flex flex-wrap justify-between gap-3 mt-[25px]">
+          <div className="basis-[152px]">
+            <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
+            <div className="h-[48px]">
+              <Input {...register("bill_from_city")} />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
-          <div>
-            <Input {...register("bill_from_post_code")} />
+          <div className="basis-[152px]">
+            <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
+            <div>
+              <Input {...register("bill_from_post_code")} />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
+          <div className="basis-full">
+            <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
 
-          <div className="h-[48px]">
-            <Input {...register("bill_from_country")} />
+            <div className="h-[48px]">
+              <Input {...register("bill_from_country")} />
+            </div>
           </div>
         </div>
 
         <h3 className="text-custom-purple text-[15px] mt-[41px]">Bill To</h3>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Name</span>
+        <div className="flex flex-col gap-4">
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Name</span>
 
-          <div className="h-[48px]">
-            <Input {...register("bill_to_client_name")} />
+            <div className="h-[48px]">
+              <Input {...register("bill_to_client_name")} />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Email</span>
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Email</span>
 
-          <div className="h-[48px]">
-            <Input {...register("bill_to_client_email")} />
+            <div className="h-[48px]">
+              <Input {...register("bill_to_client_email")} />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Street Address</span>
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Street Address</span>
 
-          <div className="h-[48px]">
-            <Input {...register("bill_to_street_address")} />
+            <div className="h-[48px]">
+              <Input {...register("bill_to_street_address")} />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
+          <div className="flex flex-wrap justify-between gap-3">
+            <div className="basis-[152px]">
+              <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
 
-          <div className="h-[48px]">
-            <Input {...register("bill_to_city")} />
-          </div>
-        </div>
-
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
-
-          <div className="h-[48px]">
-            <Input {...register("bill_to_post_code")} />
-          </div>
-        </div>
-
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
-
-          <div className="h-[48px]">
-            <Input {...register("bill_to_country")} />
-          </div>
-        </div>
-
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Invoice Date</span>
-          <div className="h-[48px]">
-            <DatePicker {...register("invoice_date")} />
-          </div>
-        </div>
-
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Payment Terms</span>
-
-          <div className="h-[48px]">
-            <Select control={control} name="payment_terms" />
-          </div>
-        </div>
-
-        <div>
-          <span className="text-custom-medium-grey text-[13px] font-normal">Project Description</span>
-
-          <div className="h-[48px]">
-            <Input {...register("project_description")} />
-          </div>
-        </div>
-
-        <h3>Item list</h3>
-        {fields.map((_, index) => {
-          return (
-            <div key={index}>
-              <div>
-                <span className="text-custom-medium-grey text-[13px] font-normal">Item Name</span>
-                <Input {...register(`invoice_items.${index}.item_name`)} />
-              </div>
-
-              <div>
-                <span className="text-custom-medium-grey text-[13px] font-normal">Qty</span>
-                <Input type="number" step="1" pattern="\d+" {...register(`invoice_items.${index}.quantity`)} />
-              </div>
-
-              <div>
-                <span className="text-custom-medium-grey text-[13px] font-normal">Price</span>
-                <Input type="number" step="1" pattern="\d+" {...register(`invoice_items.${index}.price`)} />
-              </div>
-
-              <div>
-                <span className="text-custom-medium-grey text-[13px] font-normal">Total</span>
-                <Input readOnly value={Number(invoice_items[index].price) * Number(invoice_items[index].quantity)} />
+              <div className="h-[48px]">
+                <Input {...register("bill_to_city")} />
               </div>
             </div>
-          );
-        })}
 
-        <button type="button" onClick={() => append({ item_name: "", price: 0, quantity: 0 })}>
+            <div className="basis-[152px]">
+              <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
+
+              <div className="h-[48px]">
+                <Input {...register("bill_to_post_code")} />
+              </div>
+            </div>
+
+            <div className="basis-full">
+              <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
+
+              <div className="h-[48px]">
+                <Input {...register("bill_to_country")} />
+              </div>
+            </div>
+          </div>
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Invoice Date</span>
+            <div className="h-[48px]">
+              <DatePicker {...register("invoice_date")} />
+            </div>
+          </div>
+
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Payment Terms</span>
+
+            <div className="h-[48px]">
+              <Select control={control} name="payment_terms" />
+            </div>
+          </div>
+
+          <div>
+            <span className="text-custom-medium-grey text-[13px] font-normal">Project Description</span>
+
+            <div className="h-[48px]">
+              <Input {...register("project_description")} />
+            </div>
+          </div>
+        </div>
+
+        <h3 className="text-[18px] text-custom-medium-grey font-bolda mt-[69px] mb-9">Item list</h3>
+        <div>
+          {fields.map((_, index) => {
+            return (
+              <div key={index} className="last:mb-[48px]">
+                <div>
+                  <span className="text-custom-medium-grey text-[13px] font-normal">Item Name</span>
+                  <div className="h-[48px]">
+                    <Input {...register(`invoice_items.${index}.item_name`)} />
+                  </div>
+                </div>
+
+                <div className="flex justify-center gap-2 items-center">
+                  <div>
+                    <span className="text-custom-medium-grey text-[13px] font-normal">Qty</span>
+                    <div className="h-[48px] w-[64px]">
+                      <Input {...register(`invoice_items.${index}.quantity`)} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-custom-medium-grey text-[13px] font-normal">Price</span>
+
+                    <div className="min-h-[48px] w-[100px]">
+                      <Input {...register(`invoice_items.${index}.price`)} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-custom-medium-grey text-[13px] font-normal">Total</span>
+                    <div className="h-[48px] w-[110px]">
+                      <Input readOnly value={Number(invoice_items[index].price) * Number(invoice_items[index].quantity)} />
+                    </div>
+                  </div>
+
+                  <button className="h-[48px] flex items-center " onClick={() => remove(index)}>
+                    {" "}
+                    <img className="size-4 mt-5 h-5" src={IconDelete} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <button className="text-[15px] bg-custom-light-grey w-full p-3.5 text-custom-medium-grey rounded-full" type="button" onClick={() => append({ item_name: "", price: 0, quantity: 0 })}>
           + Add new Item
         </button>
 
-        <div>
-          <Button type="button" text="Discard" variant="primary" />
-
-          <Button type="button" text="Save as Draft" variant="primary" />
-
-          <Button type="submit" text="Save & Send" variant="primary" />
+        <div className="h-[155px] flex flex-col">
+          <div className="h-[50%] -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>
+          <div className="flex justify-between bg-custom-white items-end basis-[50%]">
+            <div className="w-[86px] h-14">
+              <Button type="button" text="Discard" variant="secondary" />
+            </div>
+            <div className="w-[117px] h-14">
+              <Button type="button" text="Save as Draft" variant="tertiary" />
+            </div>
+            <div className="w-[112px] h-14">
+              <Button type="submit" text="Save & Send" variant="primary" />
+            </div>
+          </div>
         </div>
       </form>
     </div>

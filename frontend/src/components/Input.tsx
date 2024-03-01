@@ -13,7 +13,7 @@ const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
         ["border-none text-custom-medium-grey"]: props.readOnly,
       })}
     >
-      <input ref={ref} className="outline-none w-full text-[15px] font-bold" {...props} />
+      <input ref={ref} className="outline-none bg-transparent w-full text-[15px] font-bold" {...props} />
     </div>
   );
 });

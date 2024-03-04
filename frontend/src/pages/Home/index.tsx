@@ -7,6 +7,7 @@ import useInfiniteLoadingInvoice from "./hooks/useInfiniteLoadingInvoice";
 import InvoiceForm from "./components/InvoiceForm";
 import cn from "clsx";
 import { useEffect, useRef, useState } from "react";
+import { Outlet } from "react-router-dom";
 
 export default function Home() {
   const { data, bottomRef, isLoading, setStatusFilter, postInvoiceData } = useInfiniteLoadingInvoice();

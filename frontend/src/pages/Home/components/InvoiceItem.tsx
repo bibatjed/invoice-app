@@ -1,8 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { InvoiceItem as InvoiceItemProps } from "../api/invoice";
 import Status from "./Status";
 export default function InvoiceItem(props: InvoiceItemProps) {
+  const navigate = useNavigate();
+  const handleOnClick = () => {
+    navigate(`/${props.invoice_tag}`);
+  };
   return (
-    <div className="bg-custom-white flex flex-col justify-between p-5 px-10 gap-5 rounded-lg">
+    <div onClick={handleOnClick} className="bg-custom-white hover:cursor-pointer flex flex-col justify-between p-5 px-10 gap-5 rounded-lg">
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-lg">
           <span className="text-custom-medium-grey">#</span>

@@ -1,10 +1,10 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import UserRegistration from "@src/pages/UserRegistration";
 import Login from "@src/pages/Login";
 import Home from "@src/pages/Home";
 import UserContextProvider from "@src/context/UserContext";
 import ProtectedRoute from "./ProtectedRoute";
-import InvoiceForm from "@src/pages/Home/components/InvoiceForm";
+import DetailedInvoice from "@src/pages/DetailedInvoice";
 
 const router = createBrowserRouter([
   {
@@ -20,15 +20,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Home />
+        <Outlet />
       </ProtectedRoute>
     ),
   },
-
   {
-    path: "/test",
+    path: "/:invoiceTag",
     element: (
       <ProtectedRoute>
-        <InvoiceForm />
+        <DetailedInvoice />
       </ProtectedRoute>
     ),
   },

@@ -7,9 +7,16 @@ type invoiceDetails = {
   invoice_tag: string;
   user_id: number;
 } & createInvoiceType;
+
+type InvoiceParams = {
+  tag: string;
+  user_id?: number | null;
+  includeInvoiceItemList?: boolean;
+  transaction?: Transaction | null;
+};
 export interface IInvoiceRepositry {
   createInvoice: (invoice: invoiceDetails, transaction: Transaction | null) => Promise<InferAttributes<Invoice> & { invoice_item: InvoiceItem[] }>;
-  findInvoiceByTag: (tag: string, transaction: Transaction | null) => Promise<Invoice | null>;
+  findInvoiceByTag: (invoiceParams: InvoiceParams) => Promise<Invoice | null>;
   findInvoiceByUserId: (user_id: number, offset: number, limit: number, statusFilter: string[], transaction: Transaction | null) => Promise<{ rows: Invoice[]; count: number }>;
 }
 
@@ -55,11 +62,20 @@ class InvoiceRepository implements IInvoiceRepositry {
     };
   }
 
-  async findInvoiceByTag(tag: string, transaction: Transaction | null) {
+  async findInvoiceByTag({ tag, user_id = null, includeInvoiceItemList = false, transaction = null }: InvoiceParams) {
     return Invoice.findOne({
       where: {
         invoice_tag: tag,
+        ...(user_id && { user_id: user_id }),
       },
+      ...(includeInvoiceItemList && {
+        include: [
+          {
+            model: InvoiceItem,
+            as: "invoice_items",
+          },
+        ],
+      }),
       transaction,
     });
   }

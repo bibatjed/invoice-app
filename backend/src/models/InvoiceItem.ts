@@ -42,10 +42,9 @@ InvoiceItem.init(
     deleted_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      key: "deleted_at",
     },
   },
-  { underscored: true, tableName: "invoice_item", sequelize, paranoid: true }
+  { underscored: true, createdAt: "created_at", deletedAt: "deleted_at", updatedAt: "updated_at", tableName: "invoice_item", sequelize, paranoid: true }
 );
 
 export default InvoiceItem;

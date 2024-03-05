@@ -115,7 +115,7 @@ Invoice.init(
       allowNull: true,
     },
   },
-  { underscored: true, tableName: "invoice", sequelize, paranoid: true }
+  { underscored: true, deletedAt: "deleted_at", updatedAt: "updated_at", createdAt: "created_at", tableName: "invoice", sequelize, paranoid: true }
 );
 Invoice.hasMany(InvoiceItem, {
   sourceKey: "id",

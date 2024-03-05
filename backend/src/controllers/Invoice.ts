@@ -25,6 +25,17 @@ class InvoiceController {
       return next(e);
     }
   };
+
+  getDetailedInvoice = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { invoice_tag } = req.params;
+
+      const result = await this.userService.getDetailedInvoice((req as UserRequest).user.id, invoice_tag as string);
+      return res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
 }
 
 export default InvoiceController;

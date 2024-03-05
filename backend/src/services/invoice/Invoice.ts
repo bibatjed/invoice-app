@@ -11,6 +11,7 @@ export interface IInvoiceService {
   createInvoice: (user_id: number, invoice: createInvoiceType) => Promise<InferAttributes<Invoice> & { invoice_item: InvoiceItem[] }>;
   getInvoice: (user_id: number, page: string, limit: string, status: string) => Promise<{ count: number; pages: number; result: Invoice[] }>;
   getDetailedInvoice: (user_id: number, invoice_tag: string) => Promise<Invoice>;
+  putInvoicePaid: (user_id: number, invoice_tag: string) => Promise<{ message: string }>;
   deleteInvoice: (user_id: number, invoice_tag: string) => Promise<{ message: string }>;
 }
 class InvoiceService implements IInvoiceService {
@@ -74,6 +75,26 @@ class InvoiceService implements IInvoiceService {
     });
 
     return invoiceResult;
+  }
+
+  async putInvoicePaid(user_id: number, invoice_tag: string) {
+    await this.repository.startTransaction(async (transaction) => {
+      const result = await this.repository.invoice.findInvoiceByTag({ user_id: user_id, tag: invoice_tag, transaction });
+
+      if (!result) {
+        throw new ErrorService(404, "Invoice not found");
+      }
+
+      if (result.status === "paid") {
+        throw new ErrorService(400, "Invoice is already marked as paid");
+      }
+
+      await result.update({
+        status: "paid",
+      });
+    });
+
+    return { message: "Invoice is marked as paid" };
   }
 
   async deleteInvoice(user_id: number, invoice_tag: string) {

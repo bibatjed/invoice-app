@@ -12,5 +12,7 @@ export default function initializeInvoiceRouter(repository: IRepository) {
 
   router.route("/:invoice_tag").get(authMiddleware(repository), invoiceController.getDetailedInvoice).delete(authMiddleware(repository), invoiceController.deleteInvoice);
 
+  router.route("/:invoice_tag/paid").put(authMiddleware(repository), invoiceController.putInvoicePaid);
+
   return router;
 }

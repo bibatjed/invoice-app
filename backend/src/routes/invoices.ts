@@ -10,7 +10,7 @@ export default function initializeInvoiceRouter(repository: IRepository) {
   const invoiceController = new InvoiceContoller(invoiceService);
   router.route("/").post(authMiddleware(repository), invoiceController.createInvoice).get(authMiddleware(repository), invoiceController.getInvoice);
 
-  router.route("/:invoice_tag").get(authMiddleware(repository), invoiceController.getDetailedInvoice);
+  router.route("/:invoice_tag").get(authMiddleware(repository), invoiceController.getDetailedInvoice).delete(authMiddleware(repository), invoiceController.deleteInvoice);
 
   return router;
 }

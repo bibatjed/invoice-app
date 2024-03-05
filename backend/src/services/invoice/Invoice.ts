@@ -1,13 +1,17 @@
+import Invoice from "@src/models/Invoice";
+import InvoiceItem from "@src/models/InvoiceItem";
 import { IRepository } from "@src/repository";
 import ErrorService from "@src/utils/ErrorService";
 import { calculateOffset, calculatePage } from "@src/utils/pagination";
+import { InferAttributes } from "sequelize";
 import generateInvoiceTag from "./generateInvoiceTag";
 import { validateCreateInvoce, createInvoiceType } from "./validate";
 
 export interface IInvoiceService {
-  createInvoice: (user_id: number, invoice: createInvoiceType) => any;
-  getInvoice: (user_id: number, page: string, limit: string, status: string) => any;
-  getDetailedInvoice: (user_id: number, invoice_tag: string) => any;
+  createInvoice: (user_id: number, invoice: createInvoiceType) => Promise<InferAttributes<Invoice> & { invoice_item: InvoiceItem[] }>;
+  getInvoice: (user_id: number, page: string, limit: string, status: string) => Promise<{ count: number; pages: number; result: Invoice[] }>;
+  getDetailedInvoice: (user_id: number, invoice_tag: string) => Promise<Invoice>;
+  deleteInvoice: (user_id: number, invoice_tag: string) => Promise<{ message: string }>;
 }
 class InvoiceService implements IInvoiceService {
   constructor(private readonly repository: IRepository) {}
@@ -70,6 +74,20 @@ class InvoiceService implements IInvoiceService {
     });
 
     return invoiceResult;
+  }
+
+  async deleteInvoice(user_id: number, invoice_tag: string) {
+    await this.repository.startTransaction(async (transaction) => {
+      const result = await this.repository.invoice.findInvoiceByTag({ user_id: user_id, tag: invoice_tag, transaction });
+
+      if (!result) {
+        throw new ErrorService(404, "Invoice not found");
+      }
+
+      await result.destroy({ force: true, transaction });
+    });
+
+    return { message: "Invoice is deleted" };
   }
 }
 

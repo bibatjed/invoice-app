@@ -3,7 +3,7 @@ import ErrorService from "@src/utils/ErrorService";
 import { validateRegisterUser, registeUserType } from "./validate";
 
 export interface IUserService {
-  registerUser: (userDetails: registeUserType) => any;
+  registerUser: (userDetails: registeUserType) => Promise<{ message: string }>;
 }
 class UserService implements IUserService {
   constructor(private readonly repository: IRepository) {}

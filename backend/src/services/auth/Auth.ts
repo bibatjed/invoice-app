@@ -1,8 +1,12 @@
-import { IAuthService } from "@src/controllers/Auth";
 import { JWT, generateJwt, generateRefreshToken, verifyJwt } from "@src/jwt";
 import { IRepository } from "@src/repository";
 import ErrorService from "@src/utils/ErrorService";
 import { validateLogin } from "./validate";
+
+export interface IAuthService {
+  login: (loginDetails: { email: string; password: string }) => Promise<{ message: string; jwt: string; refreshToken: string }>;
+  refreshToken: (token: string) => Promise<{ message: string; jwt: string; refreshToken: string }>;
+}
 
 class AuthService implements IAuthService {
   constructor(private readonly repository: IRepository) {}

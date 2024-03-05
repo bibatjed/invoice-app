@@ -1,9 +1,5 @@
+import { IAuthService } from "@src/services/auth/Auth";
 import { NextFunction, Request, Response } from "express";
-
-export interface IAuthService {
-  login: (loginDetails: { email: string; password: string }) => Promise<{ message: string; jwt: string; refreshToken: string }>;
-  refreshToken: (token: string) => Promise<{ message: string; jwt: string; refreshToken: string }>;
-}
 
 class AuthController {
   constructor(private readonly authService: IAuthService) {}

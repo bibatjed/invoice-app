@@ -16,7 +16,7 @@ export default function Status(props: { status: "pending" | "paid" | "draft" }) 
         })}
       ></div>
       <span
-        className={cn(" capitalize text-lg", {
+        className={cn(" capitalize text-[15px] font-bold", {
           ["text-orange-400"]: props.status === "pending",
           ["text-green-400"]: props.status === "paid",
           ["text-black-400"]: props.status === "draft",

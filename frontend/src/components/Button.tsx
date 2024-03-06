@@ -3,7 +3,7 @@ import IconPlus from "@src/assets/icon-plus.svg";
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   withAddIcon?: boolean;
   text: string;
-  variant: "primary" | "secondary" | "tertiary";
+  variant: "primary" | "secondary" | "tertiary" | "danger";
 }
 export default function Button(props: IButton) {
   return (
@@ -13,6 +13,7 @@ export default function Button(props: IButton) {
         ["bg-custom-purple text-custom-white hover:bg-custom-light-purple"]: props.variant === "primary",
         ["bg-custom-light-grey font-semibold text-custom-lighter-purple "]: props.variant === "secondary",
         ["bg-custom-dark-blue text-custom-light-grey"]: props.variant === "tertiary",
+        ["bg-custom-red text-custom-white"]: props.variant === "danger",
       })}
       {...props}
     >

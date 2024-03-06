@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { InvoiceItem as InvoiceItemProps } from "../api/invoice";
-import Status from "./Status";
+import Status from "../../../components/Status";
 export default function InvoiceItem(props: InvoiceItemProps) {
   const navigate = useNavigate();
   const handleOnClick = () => {

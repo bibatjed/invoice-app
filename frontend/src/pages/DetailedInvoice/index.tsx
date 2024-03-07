@@ -3,13 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import ArrowIconLeft from "@src/assets/icon-arrow-left.svg";
 import Status from "@src/components/Status";
 import Button from "@src/components/Button";
-import { useEffect, useState } from "react";
-import { GetInvoiceTypeDetailed, getInvoiceDetailed } from "./api/detailedInvoice";
+import { useCallback, useEffect, useState } from "react";
+import { GetInvoiceTypeDetailed, deleteInvoiceDetailed, getInvoiceDetailed } from "./api/detailedInvoice";
+import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 
 export default function DetailedInvoice() {
   const { invoiceTag } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState<GetInvoiceTypeDetailed>();
+
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     if (invoiceTag) {
@@ -22,6 +25,17 @@ export default function DetailedInvoice() {
   const handleOnBackButton = () => {
     navigate("/");
   };
+
+  const handleConfirmModalOnCancel = useCallback(() => {
+    setIsConfirmDeleteModalOpen(false);
+  }, []);
+
+  const handleConfirmModalOnDelete = useCallback(() => {
+    if (invoiceTag)
+      deleteInvoiceDetailed(invoiceTag).then(() => {
+        navigate("/");
+      });
+  }, [invoiceTag]);
 
   return (
     <>
@@ -124,7 +138,7 @@ export default function DetailedInvoice() {
               <Button onClick={() => {}} type="button" text="Edit" variant="secondary" />
             </div>
             <div className="w-[89px] h-[48px]">
-              <Button type="button" text="Delete" variant="danger" />
+              <Button onClick={() => setIsConfirmDeleteModalOpen(true)} type="button" text="Delete" variant="danger" />
             </div>
             <div className="w-[149px] h-[48px]">
               <Button type="submit" text="Mark as Paid" variant="primary" />
@@ -132,6 +146,8 @@ export default function DetailedInvoice() {
           </div>
         </div>
       </Main>
+
+      <ConfirmDeleteModal invoice_tag={`#${invoiceTag}`} isOpen={isConfirmDeleteModalOpen} onCancel={handleConfirmModalOnCancel} onDelete={handleConfirmModalOnDelete} />
     </>
   );
 }

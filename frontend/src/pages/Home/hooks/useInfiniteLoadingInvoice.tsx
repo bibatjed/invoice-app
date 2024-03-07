@@ -30,7 +30,7 @@ export default function useInfiniteLoadingInvoice() {
 
   const postInvoiceData = useCallback(
     (data: InvoiceItem) => {
-      if (statusFilter.includes(data.status)) {
+      if (statusFilter.length === 0 || statusFilter.includes(data.status)) {
         setData((prevData) => ({
           ...prevData,
           count: prevData.count + 1,

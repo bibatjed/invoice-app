@@ -8,7 +8,7 @@ class InvoiceController {
 
   createInvoice = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await this.userService.createInvoice((req as UserRequest).user.id, req.body as createInvoiceType);
+      const result = await this.userService.createInvoice((req as UserRequest).user.id, req.body);
       return res.json(result);
     } catch (e) {
       return next(e);
@@ -31,6 +31,16 @@ class InvoiceController {
       const { invoice_tag } = req.params;
 
       const result = await this.userService.getDetailedInvoice((req as UserRequest).user.id, invoice_tag as string);
+      return res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  putInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { invoice_tag } = req.params;
+      const result = await this.userService.putInvoiceDetails((req as UserRequest).user.id, invoice_tag as string, req.body);
       return res.json(result);
     } catch (e) {
       return next(e);

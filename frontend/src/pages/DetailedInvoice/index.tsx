@@ -4,13 +4,13 @@ import ArrowIconLeft from "@src/assets/icon-arrow-left.svg";
 import Status from "@src/components/Status";
 import Button from "@src/components/Button";
 import { useCallback, useEffect, useState } from "react";
-import { GetInvoiceTypeDetailed, deleteInvoiceDetailed, getInvoiceDetailed } from "./api/detailedInvoice";
+import { GetInvoiceTypeDetailed, deleteInvoiceDetailed, getInvoiceDetailed, markInvoicePaid } from "./api/detailedInvoice";
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 
 export default function DetailedInvoice() {
   const { invoiceTag } = useParams();
   const navigate = useNavigate();
-  const [data, setData] = useState<GetInvoiceTypeDetailed>();
+  const [data, setData] = useState<GetInvoiceTypeDetailed | null>(null);
 
   const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] = useState(false);
 
@@ -36,6 +36,19 @@ export default function DetailedInvoice() {
         navigate("/");
       });
   }, [invoiceTag]);
+
+  const handleOnClickMarkAsPaid = useCallback(() => {
+    if (invoiceTag) {
+      markInvoicePaid(invoiceTag).then(() => {
+        setData((prevData) => {
+          return {
+            ...prevData!,
+            status: "paid",
+          };
+        });
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -132,7 +145,7 @@ export default function DetailedInvoice() {
           </div>
         </div>
 
-        <div className="h-[91px] w-screen -translate-x-[5%] flex flex-col items-center justify-center sticky bg-custom-white mt-[56px]">
+        <div className="h-[91px] w-screen -translate-x-[6%] flex flex-col items-center justify-center sticky bg-custom-white mt-[56px]">
           <div className="flex gap-3">
             <div className="w-[73px] h-[48px]">
               <Button onClick={() => {}} type="button" text="Edit" variant="secondary" />
@@ -141,7 +154,7 @@ export default function DetailedInvoice() {
               <Button onClick={() => setIsConfirmDeleteModalOpen(true)} type="button" text="Delete" variant="danger" />
             </div>
             <div className="w-[149px] h-[48px]">
-              <Button type="submit" text="Mark as Paid" variant="primary" />
+              <Button type="button" onClick={handleOnClickMarkAsPaid} text="Mark as Paid" variant="primary" />
             </div>
           </div>
         </div>

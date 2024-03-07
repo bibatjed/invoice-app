@@ -26,6 +26,10 @@ export async function deleteInvoiceDetailed(invoiceTag: string) {
   await http.delete(`/v1/invoices/${invoiceTag}`);
 }
 
+export async function markInvoicePaid(invoiceTag: string) {
+  await http.put(`/v1/invoices/${invoiceTag}/paid`);
+}
+
 // type PostInvoice = Omit<AddInvoiceType, "invoice_items"> & {
 //   invoice_items: {
 //     item_name: string;

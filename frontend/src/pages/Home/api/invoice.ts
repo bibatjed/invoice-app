@@ -25,7 +25,7 @@ export async function getInvoices(statusFilter: string = "", page: number = 1): 
   return result.data;
 }
 
-type PostInvoice = Omit<AddInvoiceType, "invoice_items"> & {
+export type PostInvoice = Omit<AddInvoiceType, "invoice_items"> & {
   invoice_items: {
     item_name: string;
     quantity: number;

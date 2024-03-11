@@ -3,9 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import ArrowIconLeft from "@src/assets/icon-arrow-left.svg";
 import Status from "@src/components/Status";
 import Button from "@src/components/Button";
-import { useCallback, useEffect, useState } from "react";
-import { GetInvoiceTypeDetailed, deleteInvoiceDetailed, getInvoiceDetailed, markInvoicePaid } from "./api/detailedInvoice";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { EditInvoice, GetInvoiceTypeDetailed, deleteInvoiceDetailed, editInvoice, getInvoiceDetailed, markInvoicePaid } from "./api/detailedInvoice";
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
+import InvoiceForm from "../../components/InvoiceForm";
+import cn from "clsx";
 
 export default function DetailedInvoice() {
   const { invoiceTag } = useParams();
@@ -50,9 +52,39 @@ export default function DetailedInvoice() {
     }
   }, []);
 
+  const [toggleEditInvoice, setToggleEditInvoice] = useState(false);
+
+  const viewRef = useRef<HTMLHeadingElement | null>(null);
+  const mainViewRef = useRef<HTMLHeadingElement | null>(null);
+  useEffect(() => {
+    if (mainViewRef.current && toggleEditInvoice) {
+      mainViewRef.current.scrollIntoView();
+    }
+    if (viewRef.current && toggleEditInvoice) {
+      viewRef.current.scrollTo({
+        top: 0,
+      });
+    }
+    if (toggleEditInvoice) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }, [toggleEditInvoice]);
+
+  const handleEditInvoiceData = useCallback(
+    async (submitData: EditInvoice) => {
+      if (invoiceTag) {
+        const result = await editInvoice(invoiceTag, submitData);
+        setData(result.data);
+      }
+    },
+    [editInvoice, invoiceTag]
+  );
+
   return (
     <>
-      <Main>
+      <Main innerRef={mainViewRef}>
         <div>
           <button onClick={handleOnBackButton} type="button" className="flex items-center  gap-5">
             <img src={ArrowIconLeft} className="w-2 h-3" alt="ArrowIconLeft" />
@@ -148,7 +180,14 @@ export default function DetailedInvoice() {
         <div className="h-[91px] w-screen -translate-x-[6%] flex flex-col items-center justify-center sticky bg-custom-white mt-[56px]">
           <div className="flex gap-3">
             <div className="w-[73px] h-[48px]">
-              <Button onClick={() => {}} type="button" text="Edit" variant="secondary" />
+              <Button
+                onClick={() => {
+                  setToggleEditInvoice(true);
+                }}
+                type="button"
+                text="Edit"
+                variant="secondary"
+              />
             </div>
             <div className="w-[89px] h-[48px]">
               <Button onClick={() => setIsConfirmDeleteModalOpen(true)} type="button" text="Delete" variant="danger" />
@@ -157,6 +196,23 @@ export default function DetailedInvoice() {
               <Button type="button" onClick={handleOnClickMarkAsPaid} text="Mark as Paid" variant="primary" />
             </div>
           </div>
+        </div>
+
+        <div
+          ref={viewRef}
+          className={cn("absolute top-0 left-0 transition overflow-y-scroll overflow-x-hidden -translate-x-full z-30 max-h-screen w-screen", {
+            ["translate-x-0"]: toggleEditInvoice,
+          })}
+        >
+          <InvoiceForm
+            key={1}
+            defaultValue={data as GetInvoiceTypeDetailed}
+            submit={handleEditInvoiceData}
+            isEdit
+            onDiscard={() => {
+              setToggleEditInvoice(false);
+            }}
+          />
         </div>
       </Main>
 

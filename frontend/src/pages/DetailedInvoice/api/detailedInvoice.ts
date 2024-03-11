@@ -30,11 +30,18 @@ export async function markInvoicePaid(invoiceTag: string) {
   await http.put(`/v1/invoices/${invoiceTag}/paid`);
 }
 
-// type PostInvoice = Omit<AddInvoiceType, "invoice_items"> & {
-//   invoice_items: {
-//     item_name: string;
-//     quantity: number;
-//     price: number;
-//     total: number;
-//   }[];
-// };
+export type EditInvoice = Omit<AddInvoiceType, "invoice_items"> & {
+  invoice_items: {
+    id?: number;
+    item_name: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }[];
+};
+
+export async function editInvoice(invoiceTag: string, data: EditInvoice) {
+  return http.put(`/v1/invoices/${invoiceTag}`, {
+    ...data,
+  });
+}

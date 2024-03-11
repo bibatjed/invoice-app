@@ -4,9 +4,11 @@ import EmptyInvoice from "./components/EmptyInvoice";
 import MyDropdown from "@src/pages/Home/components/Dropdown";
 import InvoiceList from "./components/InvoiceList";
 import useInfiniteLoadingInvoice from "./hooks/useInfiniteLoadingInvoice";
-import InvoiceForm from "./components/InvoiceForm";
+import InvoiceForm from "../../components/InvoiceForm";
 import cn from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AddInvoiceType } from "./validate";
+import { postInvoice, PostInvoice } from "./api/invoice";
 
 export default function Home() {
   const { data, bottomRef, isLoading, setStatusFilter, postInvoiceData } = useInfiniteLoadingInvoice();
@@ -25,6 +27,14 @@ export default function Home() {
       document.body.classList.remove("overflow-y-hidden");
     }
   }, [toggleAddInvoice]);
+
+  const handlePostInvoiceData = useCallback(
+    async (submitData: PostInvoice) => {
+      const result = await postInvoice(submitData);
+      postInvoiceData(result.data);
+    },
+    [postInvoiceData]
+  );
   return (
     <Main>
       <div className="w-full">
@@ -61,7 +71,7 @@ export default function Home() {
         })}
       >
         <InvoiceForm
-          postInvoiceData={postInvoiceData}
+          submit={handlePostInvoiceData}
           onDiscard={() => {
             setToggleAddInvoice(false);
           }}

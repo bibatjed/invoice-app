@@ -1,28 +1,57 @@
 import Input from "@src/components/Input";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AddInvoiceType, addInvoiceSchema } from "../validate";
+import { AddInvoiceType, addInvoiceSchema } from "../pages/Home/validate";
 import Button from "@src/components/Button";
 import Select from "@src/components/Select";
 import DatePicker from "@src/components/DatePicker";
 import IconDelete from "@src/assets/icon-delete.svg";
-import { InvoiceItem, postInvoice } from "../api/invoice";
+import { PostInvoice } from "../pages/Home/api/invoice";
+import { EditInvoice, GetInvoiceTypeDetailed } from "@src/pages/DetailedInvoice/api/detailedInvoice";
+import { useEffect } from "react";
 
-export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceData: (data: InvoiceItem) => void }) {
+type DefaultValue = GetInvoiceTypeDetailed;
+
+export default function InvoiceForm(props: { onDiscard: () => void; defaultValue?: DefaultValue; isEdit?: boolean; submit: (data: PostInvoice | EditInvoice) => Promise<void> }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, defaultValues },
     watch,
     reset,
     control,
   } = useForm<AddInvoiceType>({
-    defaultValues: {
-      payment_terms: "net_1_day",
-      invoice_items: [],
-    },
     resolver: zodResolver(addInvoiceSchema),
+    defaultValues: {
+      ...(props.isEdit
+        ? {}
+        : {
+            payment_terms: "net_1_day",
+            invoice_items: [],
+          }),
+    },
   });
+
+  useEffect(() => {
+    if (props.isEdit) {
+      reset({
+        bill_from_city: props.defaultValue?.bill_from_city,
+        bill_from_country: props.defaultValue?.bill_from_city,
+        bill_from_post_code: props.defaultValue?.bill_from_post_code,
+        bill_from_street_address: props.defaultValue?.bill_from_street_address,
+        bill_to_city: props.defaultValue?.bill_to_city,
+        bill_to_client_email: props.defaultValue?.bill_to_client_email,
+        bill_to_client_name: props.defaultValue?.bill_to_client_name,
+        bill_to_country: props.defaultValue?.bill_to_country,
+        bill_to_post_code: props.defaultValue?.bill_to_post_code,
+        bill_to_street_address: props.defaultValue?.bill_to_street_address,
+        invoice_date: props.defaultValue?.invoice_date,
+        invoice_items: props.defaultValue?.invoice_items,
+        payment_terms: props.defaultValue?.payment_terms,
+        project_description: props.defaultValue?.project_description,
+      });
+    }
+  }, [props.isEdit, props.defaultValue]);
 
   const invoice_items = watch("invoice_items");
 
@@ -32,7 +61,12 @@ export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceD
   });
 
   const onDiscard = () => {
-    reset();
+    reset(
+      props.defaultValue || {
+        payment_terms: "net_1_day",
+        invoice_items: [],
+      }
+    );
     props.onDiscard();
   };
 
@@ -44,6 +78,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceD
           const price = Number(val.price);
           const quantity = Number(val.quantity);
           return {
+            ...val,
             item_name: val.item_name,
             price: price,
             quantity: quantity,
@@ -52,8 +87,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceD
         }),
       };
 
-      const result = await postInvoice(submitData);
-      props.postInvoiceData(result.data);
+      await props.submit(submitData);
       onDiscard();
     } catch (e) {
       console.log(e);
@@ -63,7 +97,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceD
   return (
     <div className="w-full bg-custom-white p-6 mt-20 h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1 className="text-[24px] font-bold">New Invoice</h1>
+        <h1 className="text-[24px] font-bold">{props.isEdit ? "Edit" : "New"} Invoice</h1>
 
         <h3 className="text-custom-purple text-[15px] mt-[22px]">Bill From</h3>
 
@@ -225,15 +259,17 @@ export default function InvoiceForm(props: { onDiscard: () => void; postInvoiceD
 
         <div className="h-[155px] flex flex-col">
           <div className="h-[50%] -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>
-          <div className="flex justify-between bg-custom-white items-end basis-[50%]">
+          <div className="flex justify-end gap-3 bg-custom-white items-end basis-[50%]">
             <div className="w-[86px] h-14">
-              <Button onClick={onDiscard} type="button" text="Discard" variant="secondary" />
+              <Button onClick={onDiscard} type="button" text={props.isEdit ? "Cancel" : "Discard"} variant="secondary" />
             </div>
-            <div className="w-[117px] h-14">
-              <Button type="button" text="Save as Draft" variant="tertiary" />
-            </div>
+            {!props.isEdit && (
+              <div className="w-[117px] h-14">
+                <Button type="button" text="Save as Draft" variant="tertiary" />
+              </div>
+            )}
             <div className="w-[112px] h-14">
-              <Button type="submit" text="Save & Send" variant="primary" />
+              <Button type="submit" disabled={props.isEdit && !isDirty} text={props.isEdit ? "Save Changes" : "Save & Send"} variant="primary" />
             </div>
           </div>
         </div>

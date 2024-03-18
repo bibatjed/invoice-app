@@ -64,7 +64,7 @@ export default function Home() {
       </div>
 
       <div
-        className={cn("absolute top-0 left-0 transition overflow-y-scroll -translate-x-full z-30 max-h-screen md:overflow-x-hidden w-screen md:w-[616px]", {
+        className={cn("absolute top-0 left-0 transition flex flex-col overflow-auto -translate-x-full z-30 md:overflow-x-hidden w-screen md:w-[616px]", {
           ["translate-x-0"]: toggleAddInvoice,
         })}
       >
@@ -75,6 +75,11 @@ export default function Home() {
           }}
         />
       </div>
+      <div
+        className={cn("fixed z-20 inset-0 bg-black bg-opacity-25", {
+          ["hidden"]: !toggleAddInvoice,
+        })}
+      />
     </Main>
   );
 }

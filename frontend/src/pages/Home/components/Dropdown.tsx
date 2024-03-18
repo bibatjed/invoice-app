@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import ArrowDown from "@src/assets/icon-arrow-down.svg";
 import cn from "clsx";
+import { useMediaQuery } from "usehooks-ts";
 
 interface IDropdown {
   onQueryChange: (query: string) => void;
@@ -9,6 +10,7 @@ interface IDropdown {
 export default function Dropdown(props: IDropdown) {
   const [show, setShow] = useState(false);
   const [filterQuery, setFilterQuery] = useState("");
+  const matches = useMediaQuery("(min-width: 768px)");
 
   const handleOnClickQuery = (filter: string) => {
     setFilterQuery((prev) => {
@@ -36,7 +38,7 @@ export default function Dropdown(props: IDropdown) {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button onClick={() => setShow((prev) => !prev)} className="inline-flex gap-1 w-full bg-none justify-center items-center  text-lg font-bold text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-          Filter{" "}
+          {matches ? "Filter by status" : "Filter"}
           <img
             src={ArrowDown}
             className={cn("w-3 h-2 transition rotate-0", {

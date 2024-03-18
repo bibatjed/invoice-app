@@ -1,25 +1,24 @@
 import Main from "@src/layout/Main";
 import Button from "@src/components/Button";
 import EmptyInvoice from "./components/EmptyInvoice";
-import MyDropdown from "@src/pages/Home/components/Dropdown";
+import DropDown from "@src/pages/Home/components/Dropdown";
 import InvoiceList from "./components/InvoiceList";
 import useInfiniteLoadingInvoice from "./hooks/useInfiniteLoadingInvoice";
 import InvoiceForm from "../../components/InvoiceForm";
 import cn from "clsx";
+import { useMediaQuery } from "usehooks-ts";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AddInvoiceType } from "./validate";
 import { postInvoice, PostInvoice } from "./api/invoice";
 
 export default function Home() {
   const { data, bottomRef, isLoading, setStatusFilter, postInvoiceData } = useInfiniteLoadingInvoice();
   const [toggleAddInvoice, setToggleAddInvoice] = useState(false);
+  const matches = useMediaQuery("(min-width: 768px)");
 
   const viewRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
     if (viewRef.current && toggleAddInvoice) {
-      viewRef.current.scrollTo({
-        top: 0,
-      });
+      viewRef.current.scrollIntoView();
     }
     if (toggleAddInvoice) {
       document.body.classList.add("overflow-y-hidden");
@@ -36,7 +35,7 @@ export default function Home() {
     [postInvoiceData]
   );
   return (
-    <Main>
+    <Main innerRef={viewRef}>
       <div className="w-full">
         <div className="flex justify-between items-center">
           <div className="flex flex-col">
@@ -45,15 +44,15 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-4">
-            <MyDropdown onQueryChange={setStatusFilter} />
-            <div className="w-24 h-14">
+            <DropDown onQueryChange={setStatusFilter} />
+            <div className="w-24 h-14 md:w-[150px]">
               <Button
                 onClick={() => {
                   setToggleAddInvoice(true);
                 }}
                 withAddIcon
                 variant="primary"
-                text="New"
+                text={matches ? "New Invoice" : "New"}
               />
             </div>
           </div>
@@ -65,8 +64,7 @@ export default function Home() {
       </div>
 
       <div
-        ref={viewRef}
-        className={cn("absolute top-0 left-0 transition overflow-y-scroll -translate-x-full z-30 max-h-screen w-screen", {
+        className={cn("absolute top-0 left-0 transition overflow-y-scroll -translate-x-full z-30 max-h-screen md:overflow-x-hidden w-screen md:w-[616px]", {
           ["translate-x-0"]: toggleAddInvoice,
         })}
       >

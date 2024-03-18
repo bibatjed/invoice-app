@@ -207,7 +207,7 @@ export default function DetailedInvoice() {
 
         <div
           ref={viewRef}
-          className={cn("absolute top-0 left-0 transition overflow-y-scroll overflow-x-hidden -translate-x-full z-30 max-h-screen w-screen", {
+          className={cn("absolute top-0 left-0 transition overflow-y-scroll overflow-x-hidden -translate-x-full z-30 max-h-screen w-screen md:w-[616px]", {
             ["translate-x-0"]: toggleEditInvoice,
           })}
         >

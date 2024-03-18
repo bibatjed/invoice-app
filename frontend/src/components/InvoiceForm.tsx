@@ -104,31 +104,37 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
         <div>
           <span className="text-custom-medium-grey text-[13px] font-normal">Street Address</span>
           <div className="h-[48px]">
-            <Input {...register("bill_from_street_address")} />
+            <Input {...register("bill_from_street_address")} error={errors.bill_from_street_address != null} />
           </div>
+          {errors.bill_from_street_address && <span className="text-sm font-medium text-red-600">{errors.bill_from_street_address.message}</span>}
         </div>
 
         <div className="flex flex-wrap justify-between gap-3 mt-[25px]">
           <div className="basis-[152px]">
             <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
             <div className="h-[48px]">
-              <Input {...register("bill_from_city")} />
+              <Input {...register("bill_from_city")} error={errors.bill_from_city != null} />
             </div>
+
+            {errors.bill_from_city && <span className="text-sm font-medium text-red-600">{errors.bill_from_city.message}</span>}
           </div>
 
           <div className="basis-[152px]">
             <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
             <div>
-              <Input {...register("bill_from_post_code")} />
+              <Input {...register("bill_from_post_code")} error={errors.bill_from_post_code != null} />
             </div>
+
+            {errors.bill_from_post_code && <span className="text-sm font-medium text-red-600">{errors.bill_from_post_code.message}</span>}
           </div>
 
           <div className="basis-full">
             <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
 
             <div className="h-[48px]">
-              <Input {...register("bill_from_country")} />
+              <Input {...register("bill_from_country")} error={errors.bill_from_country != null} />
             </div>
+            {errors.bill_from_country && <span className="text-sm font-medium text-red-600">{errors.bill_from_country.message}</span>}
           </div>
         </div>
 
@@ -139,24 +145,27 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
             <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Name</span>
 
             <div className="h-[48px]">
-              <Input {...register("bill_to_client_name")} />
+              <Input {...register("bill_to_client_name")} error={errors.bill_to_client_name != null} />
             </div>
+            {errors.bill_to_client_name && <span className="text-sm font-medium text-red-600">{errors.bill_to_client_name.message}</span>}
           </div>
 
           <div>
             <span className="text-custom-medium-grey text-[13px] font-normal">Client&#8217;s Email</span>
 
             <div className="h-[48px]">
-              <Input {...register("bill_to_client_email")} />
+              <Input {...register("bill_to_client_email")} error={errors.bill_to_client_email != null} />
             </div>
+            {errors.bill_to_client_email && <span className="text-sm font-medium text-red-600">{errors.bill_to_client_email.message}</span>}
           </div>
 
           <div>
             <span className="text-custom-medium-grey text-[13px] font-normal">Street Address</span>
 
             <div className="h-[48px]">
-              <Input {...register("bill_to_street_address")} />
+              <Input {...register("bill_to_street_address")} error={errors.bill_to_street_address != null} />
             </div>
+            {errors.bill_to_street_address && <span className="text-sm font-medium text-red-600">{errors.bill_to_street_address.message}</span>}
           </div>
 
           <div className="flex flex-wrap justify-between gap-3">
@@ -164,24 +173,27 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
               <span className="text-custom-medium-grey text-[13px] font-normal">City</span>
 
               <div className="h-[48px]">
-                <Input {...register("bill_to_city")} />
+                <Input {...register("bill_to_city")} error={errors.bill_to_city != null} />
               </div>
+              {errors.bill_to_city && <span className="text-sm font-medium text-red-600">{errors.bill_to_city.message}</span>}
             </div>
 
             <div className="basis-[152px]">
               <span className="text-custom-medium-grey text-[13px] font-normal">Post Code</span>
 
               <div className="h-[48px]">
-                <Input {...register("bill_to_post_code")} />
+                <Input {...register("bill_to_post_code")} error={errors.bill_to_post_code != null} />
               </div>
+              {errors.bill_to_post_code && <span className="text-sm font-medium text-red-600">{errors.bill_to_post_code.message}</span>}
             </div>
 
             <div className="basis-full">
               <span className="text-custom-medium-grey text-[13px] font-normal">Country</span>
 
               <div className="h-[48px]">
-                <Input {...register("bill_to_country")} />
+                <Input {...register("bill_to_country")} error={errors.bill_to_country != null} />
               </div>
+              {errors.bill_to_country && <span className="text-sm font-medium text-red-600">{errors.bill_to_country.message}</span>}
             </div>
           </div>
           <div>
@@ -189,6 +201,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
             <div className="h-[48px]">
               <DatePicker {...register("invoice_date")} />
             </div>
+            {errors.invoice_date && <span className="text-sm font-medium text-red-600">{errors.invoice_date.message}</span>}
           </div>
 
           <div>
@@ -197,14 +210,16 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
             <div className="h-[48px]">
               <Select control={control} name="payment_terms" />
             </div>
+            {errors.payment_terms && <span className="text-sm font-medium text-red-600">{errors.payment_terms.message}</span>}
           </div>
 
           <div>
             <span className="text-custom-medium-grey text-[13px] font-normal">Project Description</span>
 
             <div className="h-[48px]">
-              <Input {...register("project_description")} />
+              <Input {...register("project_description")} error={errors.project_description != null} />
             </div>
+            {errors.project_description && <span className="text-sm font-medium text-red-600">{errors.project_description.message}</span>}
           </div>
         </div>
 
@@ -216,23 +231,23 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
                 <div className="">
                   <span className="text-custom-medium-grey text-[13px] font-normal">Item Name</span>
                   <div className="h-[48px]">
-                    <Input {...register(`invoice_items.${index}.item_name`)} />
+                    <Input {...register(`invoice_items.${index}.item_name`)} error={errors.invoice_items?.[index]?.item_name != null} />
                   </div>
                 </div>
 
                 <div className="flex justify-center gap-2 items-center">
-                  <div>
+                  <div className="">
                     <span className="text-custom-medium-grey text-[13px] font-normal">Qty</span>
                     <div className="h-[48px] w-[64px]">
-                      <Input {...register(`invoice_items.${index}.quantity`)} />
+                      <Input {...register(`invoice_items.${index}.quantity`)} error={errors.invoice_items?.[index]?.quantity != null} />
                     </div>
                   </div>
 
-                  <div>
+                  <div className="relative shrink-0">
                     <span className="text-custom-medium-grey text-[13px] font-normal">Price</span>
 
                     <div className="min-h-[48px] w-[100px]">
-                      <Input {...register(`invoice_items.${index}.price`)} />
+                      <Input {...register(`invoice_items.${index}.price`)} error={errors.invoice_items?.[index]?.price != null} />
                     </div>
                   </div>
 
@@ -243,7 +258,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
                     </div>
                   </div>
 
-                  <button className="h-[48px] flex items-center " onClick={() => remove(index)}>
+                  <button className="h-[48px] flex items-center shrink-0" onClick={() => remove(index)}>
                     {" "}
                     <img className="size-4 mt-5 h-5" src={IconDelete} />
                   </button>
@@ -256,6 +271,8 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
         <button className="text-[15px] bg-custom-light-grey w-full p-3.5 text-custom-medium-grey rounded-full" type="button" onClick={() => append({ item_name: "", price: 0, quantity: 0 })}>
           + Add new Item
         </button>
+
+        {errors.invoice_items && <span className="text-sm block mt-6 font-medium text-red-600">- All fields must be added</span>}
 
         <div className="h-[155px] flex flex-col">
           <div className="h-[50%] -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>

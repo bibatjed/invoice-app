@@ -7,7 +7,7 @@ export type InvoiceItem = {
   status: "pending" | "paid" | "draft";
   bill_to_client_name: string;
   invoice_date: string;
-  payment_terms: string;
+  payment_terms: "net_1_day" | "net_7_days" | "net_14_days" | "net_30_days";
 };
 export type GetInvoicesType = {
   result: InvoiceItem[];

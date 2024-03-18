@@ -3,11 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import ArrowIconLeft from "@src/assets/icon-arrow-left.svg";
 import Status from "@src/components/Status";
 import Button from "@src/components/Button";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EditInvoice, GetInvoiceTypeDetailed, deleteInvoiceDetailed, editInvoice, getInvoiceDetailed, markInvoicePaid } from "./api/detailedInvoice";
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 import InvoiceForm from "../../components/InvoiceForm";
 import cn from "clsx";
+import { calculateDueDate } from "@src/util/date";
 
 export default function DetailedInvoice() {
   const { invoiceTag } = useParams();
@@ -51,6 +52,12 @@ export default function DetailedInvoice() {
       });
     }
   }, []);
+
+  const paymentDue = useMemo(() => {
+    if (data?.invoice_date && data.payment_terms) {
+      return calculateDueDate(data?.invoice_date as unknown as string, data?.payment_terms);
+    }
+  }, [data?.invoice_date, data?.payment_terms]);
 
   const [toggleEditInvoice, setToggleEditInvoice] = useState(false);
 
@@ -124,7 +131,7 @@ export default function DetailedInvoice() {
 
               <div className="flex flex-col gap-1">
                 <span className="text-custom-medium-grey text-[13px] font-medium">Payment Due</span>
-                <span className="text-[15px] font-bold">{String(data?.invoice_date)}</span>
+                <span className="text-[15px] font-bold">{paymentDue}</span>
               </div>
             </div>
 

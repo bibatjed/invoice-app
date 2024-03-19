@@ -100,30 +100,54 @@ export default function DetailedInvoice() {
         </div>
 
         <div className="bg-custom-white rounded-2xl mt-[31px] px-[24px] pt-[24px] pb-[27px] flex items-center justify-between">
-          <span className="text-[13px] font-normal text-custom-medium-grey">Status</span>
-          <div className="w-[104px] h-[40px]">
-            <Status status={data?.status ?? "pending"} />
+          <div className="flex items-center justify-between w-full md:w-0 md:gap-7">
+            <span className="text-[13px] font-normal text-custom-medium-grey">Status</span>
+            <div className="w-[104px] h-[40px]">
+              <Status status={data?.status ?? "pending"} />
+            </div>
+          </div>
+
+          {/* Table view button */}
+          <div className="gap-3 hidden md:flex">
+            <div className="w-[73px] h-[48px]">
+              <Button
+                onClick={() => {
+                  setToggleEditInvoice(true);
+                }}
+                type="button"
+                text="Edit"
+                variant="secondary"
+              />
+            </div>
+            <div className="w-[89px] h-[48px]">
+              <Button onClick={() => setIsConfirmDeleteModalOpen(true)} type="button" text="Delete" variant="danger" />
+            </div>
+            <div className="w-[149px] h-[48px]">
+              <Button type="button" onClick={handleOnClickMarkAsPaid} text="Mark as Paid" variant="primary" />
+            </div>
           </div>
         </div>
 
         <div className="bg-custom-white rounded-2xl mt-[16px] px-[24px] pt-[25px] pb-[24px]">
-          <div>
-            <h2 className="text-[15px] font-bold">
-              <span className="text-custom-medium-grey">#</span>
-              {data?.invoice_tag}
-            </h2>
-            <h3 className="text-custom-medium-grey text-[13px] font-medium">{data?.project_description}</h3>
-          </div>
-          <div className="mt-[30px] flex flex-col gap-0.5">
-            <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_street_address}</span>
-            <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_city}</span>
-            <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_post_code}</span>
+          <div className="md:flex md:flex-row md:justify-between">
+            <div className="flex gap-1.5 flex-col">
+              <h2 className="text-[15px] font-bold">
+                <span className="text-custom-medium-grey">#</span>
+                {data?.invoice_tag}
+              </h2>
+              <h3 className="text-custom-medium-grey text-[13px] font-medium">{data?.project_description}</h3>
+            </div>
+            <div className="mt-[30px] md:mt-0 md:mr-6 flex flex-col gap-0.5">
+              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_street_address}</span>
+              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_city}</span>
+              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_post_code}</span>
 
-            <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_country}</span>
+              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_country}</span>
+            </div>
           </div>
 
-          <div className="mt-[31px] flex flex-wrap">
-            <div className="flex flex-col mr-[61px] justify-between">
+          <div className="mt-[31px] flex flex-wrap md:flex-nowrap">
+            <div className="flex flex-col mr-[61px] md:mr-[118px] justify-between">
               <div className="flex flex-col gap-1">
                 <span className="text-custom-medium-grey text-[13px] font-medium">Invoice Date</span>
                 <span className="text-[15px] font-bold">{String(data?.invoice_date)}</span>
@@ -135,7 +159,7 @@ export default function DetailedInvoice() {
               </div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col md:mr-[117px]">
               <div className="flex flex-col gap-1">
                 <span className="text-custom-medium-grey text-[13px] font-medium">Bill To</span>
                 <span className="text-[15px] font-bold">{data?.bill_to_client_name}</span>
@@ -150,7 +174,7 @@ export default function DetailedInvoice() {
               </div>
             </div>
 
-            <div className="flex flex-col flex-1 gap-1 mt-[32px]">
+            <div className="flex flex-col flex-1 min-w-[420px] md:min-w-0 gap-1 mt-[32px] md:mt-0">
               <span className="text-custom-medium-grey text-[13px] font-medium"> Sent to</span>
               <span className="text-[15px] font-bold">{data?.bill_to_client_email}</span>
             </div>
@@ -158,17 +182,26 @@ export default function DetailedInvoice() {
 
           <div className="bg-custom-light-grey rounded-lg mt-[38px] ">
             <div className="p-6 flex flex-col gap-3">
+              <div className="hidden md:flex md:w-full text-[13px] font-medium text-custom-medium-grey">
+                <span className="flex-grow-[2]">Item Name</span>
+                <span className="flex-grow-[1] text-right"> QTY.</span>
+                <span className="flex-grow-[1] text-right"> Price</span>
+                <span className="flex-grow-[1] text-right">Total</span>
+              </div>
               {data?.invoice_items?.map((items) => {
                 return (
-                  <div key={items.id} className="flex justify-between items-center">
-                    <div className="flex flex-col">
-                      <span className="text-[15px] font-bold">{items.item_name}</span>
-                      <span className="text-[15px] text-custom-medium-grey font-bold">
+                  <div key={items.id} className="flex justify-between md:justify-normal items-center">
+                    <div className="flex flex-col flex-1 md:flex-row text-[15px] font-bold">
+                      <span className="md:flex-grow-[2.3]">{items.item_name}</span>
+                      <span className="md:hidden text-custom-medium-grey">
                         {items.quantity} x £ {items.price}
                       </span>
+                      <span className="md:flex-grow-[1] md:text-right">{items.quantity}</span>
+                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.price}</span>
+                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.total}</span>
                     </div>
 
-                    <div>
+                    <div className="md:hidden">
                       <span className="text-[15px] font-bold">£ {items.total}</span>
                     </div>
                   </div>
@@ -177,14 +210,14 @@ export default function DetailedInvoice() {
             </div>
 
             <div className="bg-custom-dark-blue p-6 rounded-b-lg text-custom-white flex justify-between items-center ">
-              <span className="text-[13px] font-medium">Grand Total</span>
+              <span className="text-[13px] font-medium">Amount Due</span>
 
               <span className="text-[24px] font-bold">£ 556.00</span>
             </div>
           </div>
         </div>
 
-        <div className="h-[91px] w-screen -translate-x-[6%] flex flex-col items-center justify-center sticky bg-custom-white mt-[56px]">
+        <div className="h-[91px] w-screen -translate-x-6 flex flex-col items-center justify-center sticky bg-custom-white mt-[56px] md:hidden">
           <div className="flex gap-3">
             <div className="w-[73px] h-[48px]">
               <Button
@@ -207,7 +240,7 @@ export default function DetailedInvoice() {
 
         <div
           ref={viewRef}
-          className={cn("absolute top-0 left-0 transition overflow-y-scroll overflow-x-hidden -translate-x-full z-30 max-h-screen w-screen md:w-[616px]", {
+          className={cn("absolute top-0 left-0 transition overflow-x-hidden -translate-x-full z-30 w-screen md:w-[616px]", {
             ["translate-x-0"]: toggleEditInvoice,
           })}
         >
@@ -221,6 +254,11 @@ export default function DetailedInvoice() {
             }}
           />
         </div>
+        <div
+          className={cn("fixed z-20 inset-0 bg-black bg-opacity-25", {
+            ["hidden"]: !toggleEditInvoice,
+          })}
+        />
       </Main>
 
       <ConfirmDeleteModal invoice_tag={`#${invoiceTag}`} isOpen={isConfirmDeleteModalOpen} onCancel={handleConfirmModalOnCancel} onDelete={handleConfirmModalOnDelete} />

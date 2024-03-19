@@ -182,26 +182,29 @@ export default function DetailedInvoice() {
 
           <div className="bg-custom-light-grey rounded-lg mt-[38px] ">
             <div className="p-6 flex flex-col gap-3">
-              <div className="hidden md:flex md:w-full text-[13px] font-medium text-custom-medium-grey">
-                <span className="flex-grow-[2]">Item Name</span>
-                <span className="flex-grow-[1] text-right"> QTY.</span>
-                <span className="flex-grow-[1] text-right"> Price</span>
-                <span className="flex-grow-[1] text-right">Total</span>
-              </div>
-              {data?.invoice_items?.map((items) => {
+              {data?.invoice_items?.map((items, index) => {
                 return (
-                  <div key={items.id} className="flex justify-between md:justify-normal items-center">
-                    <div className="flex flex-col flex-1 md:flex-row text-[15px] font-bold">
-                      <span className="md:flex-grow-[2.3] md:min-w-[268px] md:max-w-[268px]">{items.item_name}</span>
+                  <div key={items.id} className="flex justify-between md:justify-between items-center">
+                    <div className="flex flex-col md:gap-2 text-[15px] md:min-w-[200px] font-bold">
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Item Name</span>}
+                      <span className="truncate max-w-[200px]">{items.item_name}</span>
                       <span className="md:hidden text-custom-medium-grey">
                         {items.quantity} x £ {items.price}
                       </span>
-                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">{items.quantity}</span>
-                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.price}</span>
-                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.total}</span>
                     </div>
 
-                    <div className="md:hidden">
+                    <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px] ">
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">QTY.</span>}
+                      <span className="hidden md:inline font-bold text-[15px]">{items.quantity}</span>
+                    </div>
+
+                    <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px]">
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Price</span>}
+                      <span className="hidden md:inline font-bold text-[15px]">{items.price}</span>
+                    </div>
+
+                    <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px]">
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Total</span>}
                       <span className="text-[15px] font-bold">£ {items.total}</span>
                     </div>
                   </div>

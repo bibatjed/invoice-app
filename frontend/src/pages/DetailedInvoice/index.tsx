@@ -192,11 +192,11 @@ export default function DetailedInvoice() {
                 return (
                   <div key={items.id} className="flex justify-between md:justify-normal items-center">
                     <div className="flex flex-col flex-1 md:flex-row text-[15px] font-bold">
-                      <span className="md:flex-grow-[2.3]">{items.item_name}</span>
+                      <span className="md:flex-grow-[2.3] md:min-w-[268px] md:max-w-[268px]">{items.item_name}</span>
                       <span className="md:hidden text-custom-medium-grey">
                         {items.quantity} x £ {items.price}
                       </span>
-                      <span className="md:flex-grow-[1] md:text-right">{items.quantity}</span>
+                      <span className="hidden md:inline md:flex-grow-[1] md:text-right">{items.quantity}</span>
                       <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.price}</span>
                       <span className="hidden md:inline md:flex-grow-[1] md:text-right">£ {items.total}</span>
                     </div>

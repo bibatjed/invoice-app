@@ -9,6 +9,7 @@ import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 import InvoiceForm from "../../components/InvoiceForm";
 import cn from "clsx";
 import { calculateDueDate } from "@src/util/date";
+import dayjs from "dayjs";
 
 export default function DetailedInvoice() {
   const { invoiceTag } = useParams();
@@ -39,6 +40,10 @@ export default function DetailedInvoice() {
         navigate("/");
       });
   }, [invoiceTag]);
+
+  const invoiceDate = useMemo(() => {
+    return dayjs(data?.invoice_date).format("D MMM YYYY");
+  }, [data?.invoice_date]);
 
   const handleOnClickMarkAsPaid = useCallback(() => {
     if (invoiceTag) {
@@ -150,7 +155,7 @@ export default function DetailedInvoice() {
             <div className="flex flex-col mr-[61px] md:mr-[118px] justify-between">
               <div className="flex flex-col gap-1">
                 <span className="text-custom-medium-grey text-[13px] font-medium">Invoice Date</span>
-                <span className="text-[15px] font-bold">{String(data?.invoice_date)}</span>
+                <span className="text-[15px] font-bold">{invoiceDate}</span>
               </div>
 
               <div className="flex flex-col gap-1">

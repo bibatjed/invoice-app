@@ -95,8 +95,8 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
   };
 
   return (
-    <div className="w-full relative z-10  bg-custom-white  p-6 mt-20 h-full md:rounded-tr-2xl md:rounded-br-2xl md:pt-[59px] md:px-[56px]">
-      <form onSubmit={handleSubmit(onSubmit)} className="overflow-y-auto overflow-x-hidden h-[calc(100vh-120px)] md:h-[calc(100vh-150px)]">
+    <div className="w-full relative z-10 lg:mt-0  bg-custom-white  p-6 mt-20 h-full md:rounded-tr-2xl md:rounded-br-2xl md:pt-[59px] md:px-[56px]">
+      <form onSubmit={handleSubmit(onSubmit)} className="overflow-y-auto overflow-x-hidden h-[calc(100vh-120px)] md:h-[calc(100vh-150px)] lg:h-[calc(100vh-83px)]">
         <h1 className="text-[24px] font-bold">{props.isEdit ? "Edit" : "New"} Invoice</h1>
 
         <h3 className="text-custom-purple text-[15px] mt-[22px]">Bill From</h3>

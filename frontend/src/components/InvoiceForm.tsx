@@ -277,7 +277,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
         {errors.invoice_items && <span className="text-sm block mt-6 font-medium text-red-600">- All fields must be added</span>}
 
         <div className="h-[155px] flex flex-col md:justify-end">
-          <div className="h-[50%] md:hidden -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>
+          <div className="h-[50%] md:hidden -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 dark:from-custom-darker-blue dark:to-custom-darker-blue opacity-40"></div>
           <div className="flex justify-end md:justify-start gap-3 dark:bg-custom-darker-blue bg-custom-white items-end basis-[50%]">
             <div className="w-[86px] h-14 md:w-[96px] ">
               <Button onClick={onDiscard} type="button" text={props.isEdit ? "Cancel" : "Discard"} variant="secondary" />

@@ -225,7 +225,7 @@ export default function DetailedInvoice() {
           </div>
         </div>
 
-        <div className="h-[91px] w-screen -translate-x-6 flex flex-col items-center justify-center sticky bg-custom-white mt-[56px] md:hidden">
+        <div className="h-[91px] w-screen -translate-x-6 flex flex-col items-center justify-center sticky dark:bg-custom-darker-blue bg-custom-white mt-[56px] md:hidden">
           <div className="flex gap-3">
             <div className="w-[73px] h-[48px]">
               <Button

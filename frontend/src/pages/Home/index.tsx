@@ -39,8 +39,8 @@ export default function Home() {
       <div className="w-full">
         <div className="flex justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="text-3xl font-bold">Invoices</h1>
-            <h3 className="text-custom-medium-grey text-base">{data.count} Invoices</h3>
+            <h1 className="text-3xl dark:text-custom-white font-bold">Invoices</h1>
+            <h3 className="text-custom-medium-grey dark:text-custom-white text-base">{data.count} Invoices</h3>
           </div>
 
           <div className="flex items-center gap-4">

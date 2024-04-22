@@ -37,7 +37,7 @@ export default function Dropdown(props: IDropdown) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button onClick={() => setShow((prev) => !prev)} className="inline-flex gap-1 w-full bg-none justify-center items-center  text-lg font-bold text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+        <Menu.Button onClick={() => setShow((prev) => !prev)} className="inline-flex gap-1 w-full bg-none justify-center items-center  text-lg font-bold text-black focus:outline-none focus-visible:ring-2 dark:text-custom-white focus-visible:ring-white/75">
           {matches ? "Filter by status" : "Filter"}
           <img
             src={ArrowDown}

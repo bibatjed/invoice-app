@@ -30,8 +30,8 @@ export default function Select(props: UseControllerProps<AddInvoiceType>) {
     <div className="w-full h-full">
       <Listbox {...field}>
         <div className="relative mt-1">
-          <Listbox.Button onClick={() => setShow((prev) => !prev)} className={cn("border-2 border-custom-light-grey items-center flex justify-between rounded-md p-2.5 h-full px-4 w-full hover:border-custom-purple focus-within:border-custom-purple", {})}>
-            <span className="truncate text-left text-[15px] font-bold">{selectedNet?.name}</span>
+          <Listbox.Button onClick={() => setShow((prev) => !prev)} className={cn("border-2 border-custom-light-grey dark:border-custom-darker-blue dark:bg-custom-dark-blue items-center flex justify-between rounded-md p-2.5 h-full px-4 w-full hover:border-custom-purple focus-within:border-custom-purple", {})}>
+            <span className="truncate text-left text-[15px] dark:text-custom-white font-bold">{selectedNet?.name}</span>
             <img
               src={ArrowDown}
               className={cn("w-3 h-2 transition rotate-0", {
@@ -41,9 +41,9 @@ export default function Select(props: UseControllerProps<AddInvoiceType>) {
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
           </Listbox.Button>
           <Transition as={Fragment} show={show} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-custom-dark-blue py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
               {netOption.map((person, personIdx) => (
-                <Listbox.Option onClick={() => setShow((prev) => !prev)} key={personIdx} className={({ active }) => `relative cursor-default border-b-2 border-custom-light-grey border-opacity-60 last:border-b-0 select-none font-bold py-2 pl-5 pr-4 ${active ? "text-custom-purple" : "text-black"}`} value={person.value}>
+                <Listbox.Option onClick={() => setShow((prev) => !prev)} key={personIdx} className={({ active }) => `relative cursor-default border-b-2 dark:border-custom-darker-blue border-custom-light-grey border-opacity-60 last:border-b-0 select-none font-bold py-2 pl-5 pr-4 ${active ? "text-custom-purple" : "text-black dark:text-custom-white"}`} value={person.value}>
                   {() => (
                     <>
                       <span className={`text-left truncate text-[15px] font-bold`}>{person.name}</span>

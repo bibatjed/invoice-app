@@ -100,13 +100,13 @@ export default function DetailedInvoice() {
         <div>
           <button onClick={handleOnBackButton} type="button" className="flex items-center  gap-5">
             <img src={ArrowIconLeft} className="w-2 h-3" alt="ArrowIconLeft" />
-            <span className="text-[15px] font-bold">Go back</span>
+            <span className="text-[15px] dark:text-custom-white font-bold">Go back</span>
           </button>
         </div>
 
-        <div className="bg-custom-white rounded-2xl mt-[31px] px-[24px] pt-[24px] pb-[27px] flex items-center justify-between">
+        <div className="bg-custom-white dark:bg-custom-darker-blue rounded-2xl mt-[31px] px-[24px] pt-[24px] pb-[27px] flex items-center justify-between">
           <div className="flex items-center justify-between w-full md:w-0 md:gap-7">
-            <span className="text-[13px] font-normal text-custom-medium-grey">Status</span>
+            <span className="text-[13px] font-normal dark:text-custom-white text-custom-medium-grey">Status</span>
             <div className="w-[104px] h-[40px]">
               <Status status={data?.status ?? "pending"} />
             </div>
@@ -133,94 +133,94 @@ export default function DetailedInvoice() {
           </div>
         </div>
 
-        <div className="bg-custom-white rounded-2xl mt-[16px] px-[24px] pt-[25px] pb-[24px]">
+        <div className="bg-custom-white dark:bg-custom-darker-blue rounded-2xl mt-[16px] px-[24px] pt-[25px] pb-[24px]">
           <div className="md:flex md:flex-row md:justify-between">
             <div className="flex gap-1.5 flex-col">
-              <h2 className="text-[15px] font-bold">
+              <h2 className="text-[15px] font-bold dark:text-custom-white">
                 <span className="text-custom-medium-grey">#</span>
                 {data?.invoice_tag}
               </h2>
-              <h3 className="text-custom-medium-grey text-[13px] font-medium">{data?.project_description}</h3>
+              <h3 className="text-custom-medium-grey text-[13px] dark:text-custom-white font-medium">{data?.project_description}</h3>
             </div>
             <div className="mt-[30px] md:mt-0 md:mr-6 flex flex-col gap-0.5">
-              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_street_address}</span>
-              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_city}</span>
-              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_post_code}</span>
+              <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_from_street_address}</span>
+              <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_from_city}</span>
+              <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_from_post_code}</span>
 
-              <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_from_country}</span>
+              <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_from_country}</span>
             </div>
           </div>
 
           <div className="mt-[31px] flex flex-wrap md:flex-nowrap">
             <div className="flex flex-col mr-[61px] md:mr-[118px] justify-between">
               <div className="flex flex-col gap-1">
-                <span className="text-custom-medium-grey text-[13px] font-medium">Invoice Date</span>
-                <span className="text-[15px] font-bold">{invoiceDate}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">Invoice Date</span>
+                <span className="text-[15px] font-bold dark:text-custom-white">{invoiceDate}</span>
               </div>
 
               <div className="flex flex-col gap-1">
-                <span className="text-custom-medium-grey text-[13px] font-medium">Payment Due</span>
-                <span className="text-[15px] font-bold">{paymentDue}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">Payment Due</span>
+                <span className="text-[15px] font-bold dark:text-custom-white">{paymentDue}</span>
               </div>
             </div>
 
             <div className="flex flex-col md:mr-[117px]">
               <div className="flex flex-col gap-1">
-                <span className="text-custom-medium-grey text-[13px] font-medium">Bill To</span>
-                <span className="text-[15px] font-bold">{data?.bill_to_client_name}</span>
+                <span className="text-custom-medium-grey text-[13px] dark:text-custom-white font-medium">Bill To</span>
+                <span className="text-[15px] font-bold dark:text-custom-white">{data?.bill_to_client_name}</span>
               </div>
 
               <div className="flex flex-col gap-0.5">
-                <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_to_street_address}</span>
-                <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_to_city}</span>
-                <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_to_post_code}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_to_street_address}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_to_city}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_to_post_code}</span>
 
-                <span className="text-custom-medium-grey text-[13px] font-medium">{data?.bill_to_country}</span>
+                <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium">{data?.bill_to_country}</span>
               </div>
             </div>
 
             <div className="flex flex-col flex-1 min-w-[420px] md:min-w-0 gap-1 mt-[32px] md:mt-0">
-              <span className="text-custom-medium-grey text-[13px] font-medium"> Sent to</span>
-              <span className="text-[15px] font-bold">{data?.bill_to_client_email}</span>
+              <span className="text-custom-medium-grey dark:text-custom-white text-[13px] font-medium"> Sent to</span>
+              <span className="text-[15px] dark:text-custom-white font-bold">{data?.bill_to_client_email}</span>
             </div>
           </div>
 
-          <div className="bg-custom-light-grey rounded-lg mt-[38px] ">
+          <div className="bg-custom-light-grey dark:bg-custom-dark-blue rounded-lg mt-[38px] ">
             <div className="p-6 flex flex-col gap-3">
               {data?.invoice_items?.map((items, index) => {
                 return (
                   <div key={items.id} className="flex justify-between md:justify-between items-center">
                     <div className="flex flex-col md:gap-2 text-[15px] md:min-w-[200px] font-bold">
-                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Item Name</span>}
-                      <span className="truncate max-w-[200px]">{items.item_name}</span>
-                      <span className="md:hidden text-custom-medium-grey">
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] dark:text-custom-white text-custom-medium-grey">Item Name</span>}
+                      <span className="truncate max-w-[200px] dark:text-custom-white">{items.item_name}</span>
+                      <span className="md:hidden text-custom-medium-grey dark:text-custom-white">
                         {items.quantity} x £ {items.price}
                       </span>
                     </div>
 
                     <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px] ">
-                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">QTY.</span>}
-                      <span className="hidden md:inline font-bold text-[15px]">{items.quantity}</span>
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] dark:text-custom-white text-custom-medium-grey">QTY.</span>}
+                      <span className="hidden md:inline font-bold text-[15px] dark:text-custom-white">{items.quantity}</span>
                     </div>
 
                     <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px]">
-                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Price</span>}
-                      <span className="hidden md:inline font-bold text-[15px]">{items.price}</span>
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey dark:text-custom-white">Price</span>}
+                      <span className="hidden md:inline font-bold text-[15px] dark:text-custom-white">{items.price}</span>
                     </div>
 
                     <div className="md:flex md:flex-col md:gap-2 md:min-w-[50px]">
-                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey">Total</span>}
-                      <span className="text-[15px] font-bold">£ {items.total}</span>
+                      {index === 0 && <span className="hidden md:inline font-medium text-[13px] text-custom-medium-grey dark:text-custom-white">Total</span>}
+                      <span className="text-[15px] dark:text-custom-white font-bold">£ {items.total}</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="bg-custom-dark-blue p-6 rounded-b-lg text-custom-white flex justify-between items-center ">
-              <span className="text-[13px] font-medium">Amount Due</span>
+            <div className="bg-custom-dark-blue dark:bg-custom-darkest p-6 rounded-b-lg text-custom-white flex justify-between items-center ">
+              <span className="text-[13px] font-medium dark:text-custom-white">Amount Due</span>
 
-              <span className="text-[24px] font-bold">£ 556.00</span>
+              <span className="text-[24px] font-bold">£ {data?.total}</span>
             </div>
           </div>
         </div>

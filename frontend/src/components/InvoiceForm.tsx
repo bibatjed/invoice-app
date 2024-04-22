@@ -95,9 +95,9 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
   };
 
   return (
-    <div className="w-full relative z-10 lg:mt-0  bg-custom-white  p-6 mt-20 h-full md:rounded-tr-2xl md:rounded-br-2xl md:pt-[59px] md:px-[56px]">
+    <div className="w-full relative z-10 lg:mt-0  bg-custom-white dark:bg-custom-darker-blue  p-6 mt-20 h-full md:rounded-tr-2xl md:rounded-br-2xl md:pt-[59px] md:px-[56px]">
       <form onSubmit={handleSubmit(onSubmit)} className="overflow-y-auto overflow-x-hidden h-[calc(100vh-120px)] md:h-[calc(100vh-150px)] lg:h-[calc(100vh-83px)]">
-        <h1 className="text-[24px] font-bold">{props.isEdit ? "Edit" : "New"} Invoice</h1>
+        <h1 className="text-[24px] font-bold dark:text-custom-white">{props.isEdit ? "Edit" : "New"} Invoice</h1>
 
         <h3 className="text-custom-purple text-[15px] mt-[22px]">Bill From</h3>
 
@@ -270,7 +270,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
           })}
         </div>
 
-        <button className="text-[15px] bg-custom-light-grey w-full p-3.5 text-custom-medium-grey rounded-full" type="button" onClick={() => append({ item_name: "", price: 0, quantity: 0 })}>
+        <button className="text-[15px] bg-custom-light-grey dark:text-custom-white dark:bg-custom-dark-blue w-full p-3.5 text-custom-medium-grey rounded-full" type="button" onClick={() => append({ item_name: "", price: 0, quantity: 0 })}>
           + Add new Item
         </button>
 
@@ -278,7 +278,7 @@ export default function InvoiceForm(props: { onDiscard: () => void; defaultValue
 
         <div className="h-[155px] flex flex-col md:justify-end">
           <div className="h-[50%] md:hidden -translate-x-6 w-screen bg-gradient-to-br from-slate-100 to-gray-300 opacity-40"></div>
-          <div className="flex justify-end md:justify-start gap-3 bg-custom-white items-end basis-[50%]">
+          <div className="flex justify-end md:justify-start gap-3 dark:bg-custom-darker-blue bg-custom-white items-end basis-[50%]">
             <div className="w-[86px] h-14 md:w-[96px] ">
               <Button onClick={onDiscard} type="button" text={props.isEdit ? "Cancel" : "Discard"} variant="secondary" />
             </div>

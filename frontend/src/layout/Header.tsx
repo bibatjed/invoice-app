@@ -35,7 +35,7 @@ export default function Header() {
     });
   };
   return (
-    <div className="bg-custom-darker-blue flex justify-between lg:flex-col lg:justify-between lg:max-w-[103px] lg:rounded-tr-[1.2rem] lg:rounded-br-[1.2rem] lg:fixed lg:min-h-screen lg:z-0 z-50 items-center sticky top-0 ">
+    <div className="bg-custom-dark-blue flex justify-between lg:flex-col lg:justify-between lg:max-w-[103px] lg:rounded-tr-[1.2rem] lg:rounded-br-[1.2rem] lg:fixed lg:min-h-screen lg:z-0 z-50 items-center sticky top-0 ">
       <img src={Logo} className="size-20 lg:w-[103px] lg:h-[103px]" />
       <div className="flex gap-5 h-20 lg:h-auto lg:mb-5 lg:flex-col lg:items-center lg:w-full">
         <div className="flex items-center">

@@ -3,9 +3,9 @@ export default function Status(props: { status: "pending" | "paid" | "draft" }) 
   return (
     <div
       className={cn("rounded-lg size-full p-2.5 flex justify-center items-center gap-2.5", {
-        ["bg-orange-50"]: props.status === "pending",
-        ["bg-green-50"]: props.status === "paid",
-        ["bg-gray-200"]: props.status === "draft",
+        ["bg-orange-50 dark:bg-transparent"]: props.status === "pending",
+        ["bg-green-50 dark:bg-transparent"]: props.status === "paid",
+        ["bg-gray-200 dark:bg-transparent"]: props.status === "draft",
       })}
     >
       <div

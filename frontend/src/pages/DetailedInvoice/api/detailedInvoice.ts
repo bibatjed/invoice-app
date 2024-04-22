@@ -14,6 +14,7 @@ export type GetInvoiceTypeDetailed = Omit<AddInvoiceType, "invoice_items"> & {
   status: "pending" | "paid" | "draft";
   invoice_tag: string;
   invoice_items: InvoiceItem[];
+  total: number;
 };
 
 export async function getInvoiceDetailed(invoiceTag: string): Promise<GetInvoiceTypeDetailed> {
